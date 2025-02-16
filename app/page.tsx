@@ -269,7 +269,7 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <Image
-                  src="/linkedin.svg"
+                  src="/linkedin.png"
                   alt="LinkedIn"
                   width={40}
                   height={40}
@@ -283,7 +283,7 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <Image
-                  src="/twitter.svg"
+                  src="/x-logo.png"
                   alt="Twitter"
                   width={40}
                   height={40}
@@ -297,7 +297,7 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <Image
-                  src="/github.svg"
+                  src="/github.png"
                   alt="GitHub"
                   width={40}
                   height={40}
