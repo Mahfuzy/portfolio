@@ -264,7 +264,7 @@ export default function Home() {
             <div className="flex justify-center space-x-8">
               {/* LinkedIn */}
               <a
-                href="https://www.linkedin.com/in/agbor-seid-mahfuz"
+                href="www.linkedin.com/in/agbor-seidu-mahfuz-b98398288"
                 target="_blank"
                 rel="noopener noreferrer"
               >
