@@ -251,7 +251,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section with Social Links */}
-      <section id="contact" className="py-16 bg-gray-900">
+      <section id="contact" className="py-16 bg-[#445e9b]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -269,7 +269,7 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <Image
-                  src="/icons8-linkedin.png"
+                  src="/icons8-linkedin.svg"
                   alt="LinkedIn"
                   width={40}
                   height={40}
@@ -283,7 +283,7 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <Image
-                  src="/icons8-x-logo.png"
+                  src="/icons8-x-logo.svg"
                   alt="Twitter"
                   width={40}
                   height={40}
