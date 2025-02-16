@@ -19,7 +19,7 @@ export default function Home() {
           className="text-center max-w-2xl"
         >
           <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
-            Hello, I'm <span className="text-yellow-300">Mahfuz Seidu Agbor</span>
+            Hello, I&apos;m <span className="text-yellow-300">Mahfuz Seidu Agbor</span>
           </h1>
           <p className="text-lg md:text-xl mb-8">
             I transform complex challenges into innovative, scalable solutions.
@@ -71,7 +71,7 @@ export default function Home() {
                 Who am I?
               </h2>
               <p className="text-gray-300 text-base md:text-lg">
-                I'm Mahfuz Seidu Agbor, a dedicated backend developer with a passion for designing and building scalable, robust systems. I specialize in leveraging cutting-edge technologies—such as Python, Django, and Node.js—to solve complex challenges.
+                I&apos;m Mahfuz Seidu Agbor, a dedicated backend developer with a passion for designing and building scalable, robust systems. I specialize in leveraging cutting-edge technologies—such as Python, Django, and Node.js—to solve complex challenges.
               </p>
               <p className="text-gray-300 text-base md:text-lg">
                 My projects, including <strong>MovieHub</strong>, a dynamic movie discovery platform; <strong>DreamBoard</strong>, a backend-powered Pinterest clone; and <strong>ShopNest</strong>, a comprehensive e-commerce solution, demonstrate my commitment to creating efficient and innovative systems.
@@ -260,7 +260,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="max-w-xl mx-auto text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Let's Connect</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Let&apos;s Connect</h2>
             <div className="flex justify-center space-x-8">
               {/* LinkedIn */}
               <a
