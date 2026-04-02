@@ -1,528 +1,747 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Navbar from "@/components/custom/navbar";
 import Image from "next/image";
+import {
+  ExternalLink,
+  Link as LinkIcon,
+  Brain,
+  Cloud,
+  Smartphone,
+  Github,
+  Linkedin,
+  Twitter,
+  ArrowUpRight,
+  Mail,
+  MapPin,
+  Calendar,
+  Code2,
+  Database,
+  Cpu,
+  Container,
+  Server,
+  Globe,
+  BarChart3,
+  Layers,
+} from "lucide-react";
 
-const skills = [
-  { name: "Python", color: "from-yellow-400 to-yellow-600" },
-  { name: "Django", color: "from-green-500 to-green-700" },
-  { name: "Django REST", color: "from-green-400 to-teal-600" },
-  { name: "JavaScript", color: "from-yellow-300 to-orange-500" },
-  { name: "TypeScript", color: "from-blue-400 to-blue-600" },
-  { name: "React", color: "from-cyan-400 to-blue-500" },
-  { name: "React Native", color: "from-cyan-300 to-indigo-500" },
-  { name: "Node.js", color: "from-green-400 to-green-600" },
-  { name: "PostgreSQL", color: "from-blue-500 to-indigo-600" },
-  { name: "XGBoost / ML", color: "from-orange-400 to-red-500" },
-  { name: "Streamlit", color: "from-red-400 to-pink-500" },
-  { name: "Docker", color: "from-sky-400 to-blue-600" },
+/* ─────────────────────────────────────────────
+   DATA
+   ───────────────────────────────────────────── */
+
+const skillCategories = [
+  {
+    title: "Backend",
+    icon: Server,
+    skills: [
+      { name: "Python", icon: Code2 },
+      { name: "Django", icon: Layers },
+      { name: "Django REST", icon: LinkIcon },
+      { name: "Node.js", icon: Server },
+    ],
+  },
+  {
+    title: "Frontend",
+    icon: Globe,
+    skills: [
+      { name: "JavaScript", icon: Code2 },
+      { name: "TypeScript", icon: Code2 },
+      { name: "React", icon: Layers },
+      { name: "React Native", icon: Smartphone },
+    ],
+  },
+  {
+    title: "Data & AI",
+    icon: Cpu,
+    skills: [
+      { name: "XGBoost / ML", icon: Brain },
+      { name: "Streamlit", icon: BarChart3 },
+    ],
+  },
+  {
+    title: "DevOps",
+    icon: Container,
+    skills: [
+      { name: "PostgreSQL", icon: Database },
+      { name: "Docker", icon: Container },
+    ],
+  },
 ];
 
 const projects = [
   {
     title: "StudyPal",
     description:
-      "An AI-powered study companion with courses, quizzes, streaks, timetables, and an intelligent study assistant – all backed by a robust Django API.",
+      "An AI-powered study companion with courses, quizzes, streaks, timetables, and an intelligent study assistant — backed by a robust Django API.",
     tags: ["Python", "Django", "DRF", "PostgreSQL", "AI"],
-    tagColors: ["pink", "green", "yellow", "blue", "purple"],
-    gradient: "from-violet-500/20 to-indigo-500/20",
-    border: "hover:border-violet-400/40",
     url: "https://github.com/Mahfuzy/studypal",
+    color: "#F59E0B",
+    pattern: "M0 0h40v40H0z M20 0h40v40H20z M0 20h40v40H0z",
+    size: "large",
   },
   {
     title: "ChurnPredictor",
     description:
-      "A machine-learning application that predicts bank customer churn probability and generates AI-powered retention strategies using XGBoost and Groq.",
+      "A machine-learning application that predicts bank customer churn and generates AI-powered retention strategies using XGBoost and Groq.",
     tags: ["Python", "XGBoost", "Streamlit", "Groq AI"],
-    tagColors: ["yellow", "orange", "red", "purple"],
-    gradient: "from-orange-500/20 to-red-500/20",
-    border: "hover:border-orange-400/40",
     url: "https://github.com/Mahfuzy/churn_predictor",
+    color: "#EF4444",
+    pattern: "M0 20 Q20 0 40 20 Q20 40 0 20z",
+    size: "normal",
   },
   {
     title: "DreamBoard",
     description:
       "A Pinterest-inspired backend system with powerful REST API integrations for boards, pins, and media management.",
     tags: ["Python", "Django", "DRF", "PostgreSQL"],
-    tagColors: ["pink", "blue", "yellow", "green"],
-    gradient: "from-purple-500/20 to-pink-500/20",
-    border: "hover:border-purple-400/40",
     url: "https://github.com/Mahfuzy/DreamBoard",
+    color: "#8B5CF6",
+    pattern: "M0 0l20 20L0 40z M20 0l20 20-20 20z",
+    size: "normal",
   },
   {
     title: "ShopNest",
     description:
-      "A full-featured marketplace backend where users can buy and sell products, complete with authentication, listings, and order management.",
+      "A full-featured marketplace backend with authentication, product listings, and order management.",
     tags: ["Python", "Django", "PostgreSQL"],
-    tagColors: ["green", "teal", "blue"],
-    gradient: "from-green-500/20 to-teal-500/20",
-    border: "hover:border-green-400/40",
     url: "https://github.com/Mahfuzy/shopnest",
+    color: "#10B981",
+    pattern: "M20 0a20 20 0 110 40 20 20 0 010-40z",
+    size: "large",
   },
   {
     title: "MovieHub",
     description:
-      "A sleek React application for browsing upcoming movies, searching titles, and discovering new favourites powered by a live movie API.",
+      "A sleek React application for browsing upcoming movies, searching titles, and discovering new favourites via a live movie API.",
     tags: ["JavaScript", "React"],
-    tagColors: ["blue", "cyan"],
-    gradient: "from-blue-500/20 to-cyan-500/20",
-    border: "hover:border-blue-400/40",
     url: "https://github.com/Mahfuzy/MovieApp",
+    color: "#3B82F6",
+    pattern: "M0 0h20v20H0z M20 20h20v20H20z",
+    size: "normal",
   },
   {
     title: "Collabo",
     description:
-      "A cross-platform mobile collaboration app built with Expo and React Native, enabling teams to communicate and coordinate on the go.",
+      "A cross-platform mobile collaboration app built with Expo and React Native for team communication on the go.",
     tags: ["TypeScript", "React Native", "Expo"],
-    tagColors: ["blue", "cyan", "indigo"],
-    gradient: "from-indigo-500/20 to-sky-500/20",
-    border: "hover:border-indigo-400/40",
     url: "https://github.com/Mahfuzy/collabo",
+    color: "#06B6D4",
+    pattern: "M0 40L20 0l20 40z",
+    size: "normal",
   },
 ];
-
-const tagColorMap: Record<string, string> = {
-  pink: "bg-pink-500/20 text-pink-300",
-  green: "bg-green-500/20 text-green-300",
-  teal: "bg-teal-500/20 text-teal-300",
-  yellow: "bg-yellow-500/20 text-yellow-300",
-  blue: "bg-blue-500/20 text-blue-300",
-  purple: "bg-purple-500/20 text-purple-300",
-  orange: "bg-orange-500/20 text-orange-300",
-  red: "bg-red-500/20 text-red-300",
-  cyan: "bg-cyan-500/20 text-cyan-300",
-  indigo: "bg-indigo-500/20 text-indigo-300",
-};
 
 const services = [
   {
-    icon: "🔗",
+    icon: LinkIcon,
     title: "API Development",
     description:
       "Designing and building scalable, secure RESTful APIs using Django REST Framework and Node.js that power modern applications.",
-    accent: "group-hover:text-violet-400",
+    accent: "amber",
   },
   {
-    icon: "🤖",
+    icon: Brain,
     title: "AI & Machine Learning",
     description:
-      "Building intelligent systems – from churn prediction models to AI-powered study assistants – using XGBoost, scikit-learn, and LLM integrations.",
-    accent: "group-hover:text-orange-400",
+      "Building intelligent systems — from churn prediction models to AI-powered study assistants — using XGBoost, scikit-learn, and LLM integrations.",
+    accent: "red",
   },
   {
-    icon: "☁️",
+    icon: Cloud,
     title: "Cloud & Infrastructure",
     description:
       "Crafting cloud-native solutions, containerised services, and robust data pipelines for high-performance production environments.",
-    accent: "group-hover:text-sky-400",
+    accent: "blue",
   },
   {
-    icon: "📱",
+    icon: Smartphone,
     title: "Mobile Development",
     description:
       "Developing cross-platform mobile apps with React Native and Expo that deliver smooth, native-feeling experiences on iOS and Android.",
-    accent: "group-hover:text-cyan-400",
+    accent: "cyan",
   },
 ];
 
+const accentColorMap: Record<string, { border: string; glow: string; icon: string }> = {
+  amber: {
+    border: "group-hover:border-amber-500/30",
+    glow: "group-hover:shadow-amber-500/5",
+    icon: "group-hover:text-amber-500",
+  },
+  red: {
+    border: "group-hover:border-red-400/30",
+    glow: "group-hover:shadow-red-400/5",
+    icon: "group-hover:text-red-400",
+  },
+  blue: {
+    border: "group-hover:border-blue-400/30",
+    glow: "group-hover:shadow-blue-400/5",
+    icon: "group-hover:text-blue-400",
+  },
+  cyan: {
+    border: "group-hover:border-cyan-400/30",
+    glow: "group-hover:shadow-cyan-400/5",
+    icon: "group-hover:text-cyan-400",
+  },
+};
+
+/* ─────────────────────────────────────────────
+   ANIMATION VARIANTS
+   ───────────────────────────────────────────── */
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: (i: number) => ({
+    opacity: 1,
+    transition: { duration: 0.4, delay: i * 0.06 },
+  }),
+};
+
+const slideLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
+const slideRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.45, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] },
+  }),
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+/* ─────────────────────────────────────────────
+   SECTION HEADER COMPONENT
+   ───────────────────────────────────────────── */
+
+function SectionHeader({
+  label,
+  title,
+  subtitle,
+}: {
+  label: string;
+  title: string;
+  subtitle: string;
+}) {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+      variants={fadeUp}
+      custom={0}
+      className="mb-16"
+    >
+      <span className="font-mono text-xs tracking-[0.2em] uppercase text-amber-500/80 mb-3 block">
+        {label}
+      </span>
+      <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-obsidian-50 mb-3">
+        {title}
+      </h2>
+      <p className="text-obsidian-200 text-base md:text-lg max-w-lg">{subtitle}</p>
+    </motion.div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   SVG PATTERN FOR PROJECT CARDS
+   ───────────────────────────────────────────── */
+
+function ProjectPattern({ color, pattern }: { color: string; pattern: string }) {
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full opacity-[0.07]"
+      viewBox="0 0 80 80"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <pattern id={`p-${color}`} width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d={pattern} fill={color} />
+      </pattern>
+      <rect width="100%" height="100%" fill={`url(#p-${color})`} />
+    </svg>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   PAGE
+   ───────────────────────────────────────────── */
+
 export default function Home() {
   return (
-    <div className="relative min-h-screen bg-[#0A0A0F] text-white overflow-x-hidden">
-      {/* Background gradient blobs */}
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-violet-700/10 blur-3xl" />
-        <div className="absolute top-1/2 -right-40 w-[500px] h-[500px] rounded-full bg-indigo-600/10 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full bg-purple-800/10 blur-3xl" />
-      </div>
-
+    <div className="relative min-h-screen bg-obsidian-900 text-obsidian-50 overflow-x-hidden ambient-bg">
       {/* Navbar */}
       <Navbar />
 
-      {/* ── Hero Section ── */}
-      <section className="relative min-h-screen flex flex-col md:flex-row items-center justify-center gap-12 pt-24 pb-16 px-4 md:px-8 lg:px-16">
-        {/* Text */}
+      {/* ════════════════════════════════════════
+          HERO
+         ════════════════════════════════════════ */}
+      <section className="relative min-h-screen flex flex-col md:flex-row items-center justify-center gap-10 lg:gap-16 pt-24 pb-16 px-4 md:px-8 lg:px-16 overflow-hidden scanlines">
+        {/* Left — Text */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex-1 max-w-2xl"
+          initial="hidden"
+          animate="visible"
+          variants={slideLeft}
+          className="flex-1 max-w-2xl z-10"
         >
-          <p className="text-violet-400 font-mono text-sm tracking-widest uppercase mb-4">
-            Hello, I&apos;m
-          </p>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight">
-            <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-              Mahfuz
-            </span>
-            <br />
-            <span className="text-white">Seidu Agbor</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-3 font-light">
+          <p className="font-mono text-xs tracking-[0.25em] uppercase text-amber-500/80 mb-5">
             Backend Developer &amp; AI Enthusiast
           </p>
-          <p className="text-gray-400 text-base md:text-lg mb-10 max-w-lg">
-            I transform complex challenges into innovative, scalable solutions —
-            from robust REST APIs to intelligent machine-learning systems.
+
+          <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-[0.95] mb-6">
+            <span className="text-obsidian-50">Mahfuz</span>
+            <br />
+            <span className="text-amber-500 accent-glow-text">Seidu Agbor</span>
+          </h1>
+
+          <p className="text-obsidian-200 text-lg md:text-xl mb-10 max-w-lg leading-relaxed">
+            I transform complex challenges into innovative, scalable solutions
+            — from robust REST APIs to intelligent machine-learning systems.
           </p>
+
           <div className="flex flex-wrap gap-4">
             <a
               href="#projects"
-              className="px-8 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-full shadow-lg shadow-violet-500/25 hover:shadow-violet-500/50 hover:scale-105 transition-all duration-300"
+              className="group inline-flex items-center gap-2 px-7 py-3.5 bg-amber-500 text-obsidian-900 font-heading font-bold text-sm rounded-lg hover:bg-amber-400 transition-all duration-200 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 cursor-pointer"
             >
               View My Work
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
             </a>
             <a
               href="#contact"
-              className="px-8 py-3 border border-violet-500/50 text-violet-300 font-semibold rounded-full hover:bg-violet-500/10 hover:border-violet-400 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-obsidian-500 text-obsidian-100 font-heading font-semibold text-sm rounded-lg hover:border-amber-500/40 hover:bg-amber-500/5 transition-all duration-200 cursor-pointer"
             >
               Get in Touch
             </a>
           </div>
         </motion.div>
 
-        {/* Photo */}
+        {/* Right — Photo */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="relative flex-shrink-0"
+          initial="hidden"
+          animate="visible"
+          variants={slideRight}
+          className="relative flex-shrink-0 z-10"
         >
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 blur-2xl opacity-20 scale-110" />
-          <div className="relative rounded-full p-1 bg-gradient-to-r from-violet-500 to-indigo-500">
+          {/* Glow behind photo */}
+          <div className="absolute inset-0 rounded-2xl bg-amber-500/10 blur-3xl scale-110 animate-glow-pulse" />
+
+          <div className="relative rounded-2xl p-[2px] bg-gradient-to-br from-amber-500/60 via-amber-600/20 to-transparent">
             <Image
               src="/nice.jpg"
-              alt="Mahfuz Seidu Agbor"
-              width={340}
-              height={340}
-              className="rounded-full object-cover"
+              alt="Mahfuz Seidu Agbor — Backend Developer and AI Enthusiast"
+              width={360}
+              height={360}
+              className="rounded-2xl object-cover"
               priority
             />
           </div>
+
+          {/* Floating code snippet decoration */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.6 }}
+            className="absolute -bottom-6 -left-6 bg-obsidian-800/90 backdrop-blur-sm border border-obsidian-600/40 rounded-lg p-3 font-mono text-xs hidden md:block"
+          >
+            <span className="text-amber-500">const</span>{" "}
+            <span className="text-obsidian-100">dev</span>{" "}
+            <span className="text-obsidian-300">=</span>{" "}
+            <span className="text-emerald-400">&quot;passionate&quot;</span>
+            <span className="inline-block w-[2px] h-3.5 bg-amber-500 ml-0.5 animate-cursor-blink" />
+          </motion.div>
         </motion.div>
       </section>
 
-      {/* ── About Section ── */}
-      <section id="about" className="py-20 bg-[#0D0D15]">
+      {/* ════════════════════════════════════════
+          ABOUT
+         ════════════════════════════════════════ */}
+      <section id="about" className="py-24 bg-obsidian-800/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col md:flex-row items-center gap-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="flex flex-col md:flex-row items-center gap-14"
           >
-            <div className="md:w-2/5 flex justify-center">
+            {/* Photo */}
+            <motion.div variants={slideLeft} className="md:w-2/5 flex justify-center">
               <div className="relative">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-violet-500/30 to-indigo-500/30 blur-xl" />
+                <div className="absolute inset-0 rounded-2xl bg-amber-500/8 blur-2xl" />
                 <Image
                   src="/a_determined_individual.jpg"
-                  alt="Profile"
+                  alt="Mahfuz Seidu Agbor profile photo"
                   width={420}
                   height={420}
-                  className="relative rounded-2xl w-full max-w-xs object-cover border border-white/10"
+                  className="relative rounded-2xl w-full max-w-xs object-cover border border-obsidian-600/30"
                 />
               </div>
-            </div>
-            <div className="md:w-3/5 space-y-5">
-              <h2 className="text-3xl md:text-4xl font-bold">
-                <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-                  Who am I?
+            </motion.div>
+
+            {/* Text */}
+            <motion.div
+              variants={slideRight}
+              className="md:w-3/5 space-y-6"
+            >
+              <div>
+                <span className="font-mono text-xs tracking-[0.2em] uppercase text-amber-500/80 mb-2 block">
+                  About
                 </span>
-              </h2>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                I&apos;m Mahfuz Seidu Agbor, a dedicated backend developer with a
-                passion for designing and building scalable, robust systems. I
+                <h2 className="font-heading text-3xl md:text-4xl font-bold text-obsidian-50">
+                  Who am I?
+                </h2>
+              </div>
+
+              <p className="text-obsidian-200 text-base md:text-lg leading-relaxed max-w-prose">
+                I&apos;m Mahfuz Seidu Agbor, a dedicated backend developer with
+                a passion for designing and building scalable, robust systems. I
                 specialise in Python, Django, and REST APIs, while also exploring
                 the frontier of AI and machine-learning applications.
               </p>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed">
+
+              <p className="text-obsidian-200 text-base md:text-lg leading-relaxed max-w-prose">
                 My recent projects include{" "}
-                <strong className="text-violet-300">StudyPal</strong>, an
+                <strong className="text-amber-400">StudyPal</strong>, an
                 AI-powered learning platform;{" "}
-                <strong className="text-orange-300">ChurnPredictor</strong>, a
-                bank customer churn prediction tool; and{" "}
-                <strong className="text-green-300">ShopNest</strong>, a
-                full-featured marketplace – each reflecting my commitment to
+                <strong className="text-red-400">ChurnPredictor</strong>, a bank
+                customer churn prediction tool; and{" "}
+                <strong className="text-emerald-400">ShopNest</strong>, a
+                full-featured marketplace — each reflecting my commitment to
                 innovative, production-ready engineering.
               </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-sm text-gray-400">
-                <div>
-                  <span className="text-violet-400 font-semibold">Age:</span> 19
-                </div>
-                <div>
-                  <span className="text-violet-400 font-semibold">Location:</span>{" "}
-                  Northern, Ghana
-                </div>
-                <div className="col-span-2 sm:col-span-1">
-                  <span className="text-violet-400 font-semibold">Email:</span>{" "}
-                  seidumahfuz@gmail.com
-                </div>
+
+              {/* Stats Bar */}
+              <div className="grid grid-cols-3 gap-4 pt-4">
+                {[
+                  { icon: Calendar, label: "Age", value: "19" },
+                  { icon: MapPin, label: "Location", value: "Ghana" },
+                  { icon: Mail, label: "Email", value: "seidumahfuz@gmail.com" },
+                ].map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex items-start gap-2.5 text-sm"
+                  >
+                    <stat.icon className="w-4 h-4 text-amber-500/70 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <span className="block text-obsidian-300 text-xs font-mono uppercase tracking-wider">
+                        {stat.label}
+                      </span>
+                      <span className="text-obsidian-100 font-medium">
+                        {stat.value}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* ── Skills Section ── */}
-      <section id="skills" className="py-20 bg-[#0A0A0F]">
+      {/* ════════════════════════════════════════
+          TECH STACK
+         ════════════════════════════════════════ */}
+      <section id="skills" className="py-24 bg-obsidian-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-                Tech Stack
-              </span>
-            </h2>
-            <p className="text-gray-400">Technologies I work with</p>
-          </motion.div>
-          <div className="flex flex-wrap justify-center gap-4">
-            {skills.map((skill, i) => (
-              <motion.div
-                key={skill.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                whileHover={{ scale: 1.08 }}
-                className="relative px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden cursor-default"
-              >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-r ${skill.color} opacity-10`}
-                />
-                <span className="relative font-medium text-white text-sm">
-                  {skill.name}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+          <SectionHeader
+            label="// skills"
+            title="Tech Stack"
+            subtitle="Technologies I work with daily"
+          />
 
-      {/* ── Projects Section ── */}
-      <section id="projects" className="py-20 bg-[#0D0D15]">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-                Featured Projects
-              </span>
-            </h2>
-            <p className="text-gray-400">Things I&apos;ve built</p>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-            {projects.map((project, i) => (
+            {skillCategories.map((cat, i) => (
               <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -6 }}
-                className={`group bg-[#13131F] rounded-2xl p-6 border border-white/8 ${project.border} transition-all duration-300 flex flex-col`}
+                key={cat.title}
+                variants={scaleIn}
+                custom={i}
+                className="bg-obsidian-800/50 rounded-xl p-6 border border-obsidian-600/20 hover:border-obsidian-500/30 transition-all duration-300"
               >
-                {/* Gradient banner */}
-                <div
-                  className={`h-36 rounded-xl mb-5 bg-gradient-to-br ${project.gradient} flex items-center justify-center text-4xl`}
-                >
-                  {project.title === "StudyPal" && "📚"}
-                  {project.title === "ChurnPredictor" && "🧠"}
-                  {project.title === "DreamBoard" && "📌"}
-                  {project.title === "ShopNest" && "🛒"}
-                  {project.title === "MovieHub" && "🎬"}
-                  {project.title === "Collabo" && "📱"}
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-9 h-9 rounded-lg bg-amber-500/10 flex items-center justify-center">
+                    <cat.icon className="w-4.5 h-4.5 text-amber-500" />
+                  </div>
+                  <h3 className="font-heading font-semibold text-obsidian-100 text-base">
+                    {cat.title}
+                  </h3>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-violet-300 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4 flex-1">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, j) => (
-                    <span
-                      key={tag}
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${tagColorMap[project.tagColors[j]] ?? "bg-gray-700 text-gray-300"}`}
+                <div className="space-y-2.5">
+                  {cat.skills.map((skill) => (
+                    <div
+                      key={skill.name}
+                      className="flex items-center gap-2.5 text-sm text-obsidian-200 hover:text-obsidian-50 transition-colors duration-150"
                     >
-                      {tag}
-                    </span>
+                      <skill.icon className="w-3.5 h-3.5 text-obsidian-400" />
+                      <span>{skill.name}</span>
+                    </div>
                   ))}
                 </div>
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors"
-                >
-                  View on GitHub
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
-                </a>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Services Section ── */}
-      <section id="services" className="py-20 bg-[#0A0A0F]">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-                What I Offer
-              </span>
-            </h2>
-            <p className="text-gray-400">Services I can provide</p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, i) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ scale: 1.03 }}
-                className="group bg-[#13131F] rounded-2xl p-7 border border-white/8 hover:border-violet-500/30 transition-all duration-300"
-              >
-                <span className="text-4xl mb-4 block">{service.icon}</span>
-                <h3
-                  className={`text-lg font-semibold mb-3 text-white transition-colors ${service.accent}`}
-                >
-                  {service.title}
-                </h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  {service.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* ── Contact Section ── */}
-      <section id="contact" className="py-24 bg-[#0D0D15]">
+      {/* ════════════════════════════════════════
+          PROJECTS — Bento Grid
+         ════════════════════════════════════════ */}
+      <section id="projects" className="py-24 bg-obsidian-800/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            label="// work"
+            title="Featured Projects"
+            subtitle="Things I've built"
+          />
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          >
+            {projects.map((project, i) => (
+              <motion.a
+                key={project.title}
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                variants={fadeUp}
+                custom={i}
+                whileHover={{ y: -4 }}
+                className={`group relative bg-obsidian-800/60 rounded-xl border border-obsidian-600/20 hover:border-obsidian-500/40 transition-all duration-300 flex flex-col overflow-hidden cursor-pointer ${
+                  project.size === "large" ? "lg:col-span-1" : ""
+                }`}
+              >
+                {/* Pattern Banner */}
+                <div className="relative h-36 overflow-hidden bg-obsidian-800/80">
+                  <ProjectPattern
+                    color={project.color}
+                    pattern={project.pattern}
+                  />
+                  {/* Gradient overlay */}
+                  <div
+                    className="absolute inset-0 opacity-10"
+                    style={{
+                      background: `linear-gradient(135deg, ${project.color}33, transparent 70%)`,
+                    }}
+                  />
+                  {/* Project initial */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span
+                      className="font-heading text-5xl font-black opacity-[0.08]"
+                      style={{ color: project.color }}
+                    >
+                      {project.title.charAt(0)}
+                    </span>
+                  </div>
+                  {/* Arrow on hover */}
+                  <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-obsidian-900/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <ArrowUpRight className="w-4 h-4 text-obsidian-100" />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-5 flex flex-col flex-1">
+                  <h3 className="font-heading text-lg font-bold text-obsidian-50 mb-2 group-hover:text-amber-400 transition-colors duration-200">
+                    {project.title}
+                  </h3>
+                  <p className="text-obsidian-300 text-sm leading-relaxed mb-4 flex-1">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2.5 py-1 rounded-md bg-obsidian-700/60 text-obsidian-200 text-xs font-mono tracking-wide"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          SERVICES
+         ════════════════════════════════════════ */}
+      <section id="services" className="py-24 bg-obsidian-900">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            label="// expertise"
+            title="What I Offer"
+            subtitle="Services I can provide"
+          />
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+          >
+            {services.map((service, i) => {
+              const colors = accentColorMap[service.accent] ?? accentColorMap.amber;
+              return (
+                <motion.div
+                  key={service.title}
+                  variants={fadeUp}
+                  custom={i}
+                  whileHover={{ y: -3 }}
+                  className={`group bg-obsidian-800/50 rounded-xl p-6 border border-obsidian-600/20 ${colors.border} ${colors.glow} transition-all duration-300 hover:shadow-lg cursor-default`}
+                >
+                  <div
+                    className={`w-11 h-11 rounded-lg bg-obsidian-700/60 flex items-center justify-center mb-5 transition-colors duration-300`}
+                  >
+                    <service.icon
+                      className={`w-5 h-5 text-obsidian-300 ${colors.icon} transition-colors duration-300`}
+                    />
+                  </div>
+                  <h3 className="font-heading text-base font-semibold text-obsidian-50 mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-obsidian-300 text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          CONTACT
+         ════════════════════════════════════════ */}
+      <section id="contact" className="py-28 bg-obsidian-800/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
             className="max-w-2xl mx-auto text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-                Let&apos;s Connect
+            <motion.div variants={fadeUp} custom={0}>
+              <span className="font-mono text-xs tracking-[0.2em] uppercase text-amber-500/80 mb-3 block">
+                // contact
               </span>
-            </h2>
-            <p className="text-gray-400 mb-10">
-              I&apos;m always open to new opportunities, collaborations, or just a
-              good conversation. Reach out!
-            </p>
-            <a
-              href="mailto:seidumahfuz@gmail.com"
-              className="inline-block px-10 py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-full shadow-lg shadow-violet-500/30 hover:shadow-violet-500/60 hover:scale-105 transition-all duration-300 mb-12"
+              <h2 className="font-heading text-4xl md:text-5xl font-bold text-obsidian-50 mb-4">
+                Let&apos;s Connect
+              </h2>
+              <p className="text-obsidian-200 text-lg mb-10 max-w-md mx-auto">
+                I&apos;m always open to new opportunities, collaborations, or
+                just a good conversation. Reach out!
+              </p>
+            </motion.div>
+
+            {/* Terminal-style email */}
+            <motion.div variants={fadeUp} custom={1}>
+              <a
+                href="mailto:seidumahfuz@gmail.com"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-obsidian-800/80 border border-obsidian-600/30 rounded-xl hover:border-amber-500/30 hover:bg-obsidian-800 transition-all duration-300 mb-12 cursor-pointer"
+              >
+                <span className="font-mono text-amber-500 text-sm">$</span>
+                <span className="font-mono text-obsidian-100 text-sm group-hover:text-amber-400 transition-colors">
+                  mail seidumahfuz@gmail.com
+                </span>
+                <span className="inline-block w-[2px] h-4 bg-amber-500 animate-cursor-blink" />
+              </a>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div
+              variants={fadeUp}
+              custom={2}
+              className="flex justify-center items-center gap-5"
             >
-              seidumahfuz@gmail.com
-            </a>
-            <div className="flex justify-center items-center gap-8">
-              {/* LinkedIn */}
-              <a
-                href="https://www.linkedin.com/in/agbor-seidu-mahfuz-b98398288"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col items-center gap-2"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 group-hover:border-blue-400/50 group-hover:bg-blue-500/10 flex items-center justify-center transition-all duration-300">
-                  <Image
-                    src="/icons8-linkedin.svg"
-                    alt="LinkedIn"
-                    width={28}
-                    height={28}
-                    className="group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <span className="text-xs text-gray-500 group-hover:text-blue-400 transition-colors">
-                  LinkedIn
-                </span>
-              </a>
-              {/* Twitter / X */}
-              <a
-                href="https://twitter.com/MahfuzSeidu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col items-center gap-2"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 group-hover:border-gray-400/50 group-hover:bg-gray-500/10 flex items-center justify-center transition-all duration-300">
-                  <Image
-                    src="/icons8-x-logo.svg"
-                    alt="X / Twitter"
-                    width={28}
-                    height={28}
-                    className="group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <span className="text-xs text-gray-500 group-hover:text-gray-300 transition-colors">
-                  Twitter
-                </span>
-              </a>
-              {/* GitHub */}
-              <a
-                href="https://github.com/Mahfuzy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col items-center gap-2"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 group-hover:border-violet-400/50 group-hover:bg-violet-500/10 flex items-center justify-center transition-all duration-300">
-                  <Image
-                    src="/icons8-github.svg"
-                    alt="GitHub"
-                    width={28}
-                    height={28}
-                    className="group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <span className="text-xs text-gray-500 group-hover:text-violet-400 transition-colors">
-                  GitHub
-                </span>
-              </a>
-            </div>
+              {[
+                {
+                  href: "https://www.linkedin.com/in/agbor-seidu-mahfuz-b98398288",
+                  icon: Linkedin,
+                  label: "LinkedIn",
+                  hoverColor: "hover:text-blue-400 hover:border-blue-400/30",
+                },
+                {
+                  href: "https://twitter.com/MahfuzSeidu",
+                  icon: Twitter,
+                  label: "Twitter / X",
+                  hoverColor: "hover:text-obsidian-100 hover:border-obsidian-400/30",
+                },
+                {
+                  href: "https://github.com/Mahfuzy",
+                  icon: Github,
+                  label: "GitHub",
+                  hoverColor: "hover:text-amber-400 hover:border-amber-400/30",
+                },
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit my ${social.label} profile`}
+                  className={`group w-12 h-12 rounded-xl bg-obsidian-800/60 border border-obsidian-600/20 flex items-center justify-center transition-all duration-200 cursor-pointer ${social.hoverColor}`}
+                >
+                  <social.icon className="w-5 h-5 text-obsidian-300 group-hover:text-inherit transition-colors duration-200" />
+                </a>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-6 bg-[#0A0A0F] border-t border-white/5 text-center text-gray-600 text-sm">
-        © {new Date().getFullYear()} Mahfuz Seidu Agbor. All rights reserved.
+      {/* ════════════════════════════════════════
+          FOOTER
+         ════════════════════════════════════════ */}
+      <footer className="py-8 bg-obsidian-900 border-t border-obsidian-600/15">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-obsidian-400 text-sm font-mono">
+            © {new Date().getFullYear()}{" "}
+            <span className="text-obsidian-200">Mahfuz Seidu Agbor</span>. All
+            rights reserved.
+          </p>
+        </div>
       </footer>
     </div>
   );
