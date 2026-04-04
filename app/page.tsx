@@ -4,7 +4,6 @@ import { motion } from "motion/react";
 import Navbar from "@/components/custom/navbar";
 import Image from "next/image";
 import {
-  ExternalLink,
   Link as LinkIcon,
   Brain,
   Cloud,
@@ -74,8 +73,9 @@ const projects = [
     title: "StudyPal",
     description:
       "An AI-powered study companion with courses, quizzes, streaks, timetables, and an intelligent study assistant — backed by a robust Django API.",
-    tags: ["Python", "Django", "DRF", "PostgreSQL", "AI"],
-    url: "https://github.com/Mahfuzy/studypal",
+    tags: ["Python", "Django","FastAPI", "DRF", "PostgreSQL", "AI"],
+    githubUrl: "https://github.com/Mahfuzy/studypal",
+    liveUrl: "https://studypal-ai.vercel.app/", // Example placeholder
     color: "#F59E0B",
     pattern: "M0 0h40v40H0z M20 0h40v40H20z M0 20h40v40H0z",
     size: "large",
@@ -85,7 +85,8 @@ const projects = [
     description:
       "A machine-learning application that predicts bank customer churn and generates AI-powered retention strategies using XGBoost and Groq.",
     tags: ["Python", "XGBoost", "Streamlit", "Groq AI"],
-    url: "https://github.com/Mahfuzy/churn_predictor",
+    githubUrl: "https://github.com/Mahfuzy/churn_predictor",
+    liveUrl: "https://churnpredictor-jlg8rzvny2tncdnxzqsrbt.streamlit.app/", // Example placeholder
     color: "#EF4444",
     pattern: "M0 20 Q20 0 40 20 Q20 40 0 20z",
     size: "normal",
@@ -95,7 +96,8 @@ const projects = [
     description:
       "A Pinterest-inspired backend system with powerful REST API integrations for boards, pins, and media management.",
     tags: ["Python", "Django", "DRF", "PostgreSQL"],
-    url: "https://github.com/Mahfuzy/DreamBoard",
+    githubUrl: "https://github.com/Mahfuzy/DreamBoard",
+    liveUrl: null,
     color: "#8B5CF6",
     pattern: "M0 0l20 20L0 40z M20 0l20 20-20 20z",
     size: "normal",
@@ -105,7 +107,8 @@ const projects = [
     description:
       "A full-featured marketplace backend with authentication, product listings, and order management.",
     tags: ["Python", "Django", "PostgreSQL"],
-    url: "https://github.com/Mahfuzy/shopnest",
+    githubUrl: "https://github.com/Mahfuzy/shopnest",
+    liveUrl: null,
     color: "#10B981",
     pattern: "M20 0a20 20 0 110 40 20 20 0 010-40z",
     size: "large",
@@ -115,7 +118,8 @@ const projects = [
     description:
       "A sleek React application for browsing upcoming movies, searching titles, and discovering new favourites via a live movie API.",
     tags: ["JavaScript", "React"],
-    url: "https://github.com/Mahfuzy/MovieApp",
+    githubUrl: "https://github.com/Mahfuzy/MovieApp",
+    liveUrl: "https://mahfuzy-moviehub.vercel.app/", // Example placeholder
     color: "#3B82F6",
     pattern: "M0 0h20v20H0z M20 20h20v20H20z",
     size: "normal",
@@ -125,7 +129,8 @@ const projects = [
     description:
       "A cross-platform mobile collaboration app built with Expo and React Native for team communication on the go.",
     tags: ["TypeScript", "React Native", "Expo"],
-    url: "https://github.com/Mahfuzy/collabo",
+    githubUrl: "https://github.com/Mahfuzy/collabo",
+    liveUrl: null,
     color: "#06B6D4",
     pattern: "M0 40L20 0l20 40z",
     size: "normal",
@@ -196,14 +201,6 @@ const fadeUp = {
     opacity: 1,
     y: 0,
     transition: { duration: 0.5, delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] },
-  }),
-};
-
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: (i: number) => ({
-    opacity: 1,
-    transition: { duration: 0.4, delay: i * 0.06 },
   }),
 };
 
@@ -444,9 +441,9 @@ export default function Home() {
               {/* Stats Bar */}
               <div className="grid grid-cols-3 gap-4 pt-4">
                 {[
-                  { icon: Calendar, label: "Age", value: "19" },
+                  { icon: Calendar, label: "Age", value: "20" },
                   { icon: MapPin, label: "Location", value: "Ghana" },
-                  { icon: Mail, label: "Email", value: "seidumahfuz@gmail.com" },
+                  { icon: Mail, label: "Email", value: "mahfuzagbor@gmail.com" },
                 ].map((stat) => (
                   <div
                     key={stat.label}
@@ -538,15 +535,11 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
           >
             {projects.map((project, i) => (
-              <motion.a
+              <motion.div
                 key={project.title}
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
                 variants={fadeUp}
                 custom={i}
-                whileHover={{ y: -4 }}
-                className={`group relative bg-obsidian-800/60 rounded-xl border border-obsidian-600/20 hover:border-obsidian-500/40 transition-all duration-300 flex flex-col overflow-hidden cursor-pointer ${
+                className={`group relative bg-obsidian-800/60 rounded-xl border border-obsidian-600/20 hover:border-obsidian-500/40 transition-all duration-300 flex flex-col overflow-hidden ${
                   project.size === "large" ? "lg:col-span-1" : ""
                 }`}
               >
@@ -572,21 +565,45 @@ export default function Home() {
                       {project.title.charAt(0)}
                     </span>
                   </div>
-                  {/* Arrow on hover */}
-                  <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-obsidian-900/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <ArrowUpRight className="w-4 h-4 text-obsidian-100" />
+                  
+                  {/* Quick Link Icons (Moved to Banner for higher visibility) */}
+                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-obsidian-900/80 backdrop-blur-md flex items-center justify-center text-obsidian-300 hover:text-amber-500 hover:scale-110 transition-all border border-obsidian-700/50 hover:border-amber-500/50"
+                        title="View Source on GitHub"
+                      >
+                        <Github className="w-5 h-5" />
+                      </a>
+                    )}
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-obsidian-900/80 backdrop-blur-md flex items-center justify-center text-obsidian-300 hover:text-amber-500 hover:scale-110 transition-all border border-obsidian-700/50 hover:border-amber-500/50"
+                        title="View Live Demo"
+                      >
+                        <Globe className="w-5 h-5" />
+                      </a>
+                    )}
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
-                  <h3 className="font-heading text-lg font-bold text-obsidian-50 mb-2 group-hover:text-amber-400 transition-colors duration-200">
-                    {project.title}
-                  </h3>
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-heading text-lg font-bold text-obsidian-50 group-hover:text-amber-400 transition-colors duration-200">
+                      {project.title}
+                    </h3>
+                  </div>
                   <p className="text-obsidian-300 text-sm leading-relaxed mb-4 flex-1">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
@@ -596,8 +613,34 @@ export default function Home() {
                       </span>
                     ))}
                   </div>
+
+                  {/* Explicit Action Row */}
+                  <div className="flex items-center gap-4 mt-auto pt-4 border-t border-obsidian-700/30">
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono text-obsidian-400 hover:text-amber-500 transition-colors cursor-pointer"
+                      >
+                        <Github className="w-3.5 h-3.5" />
+                        GITHUB_REPO
+                      </a>
+                    )}
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono text-obsidian-400 hover:text-amber-500 transition-colors cursor-pointer"
+                      >
+                        <Globe className="w-3.5 h-3.5" />
+                        LIVE_DEMO
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </motion.a>
+              </motion.div>
             ))}
           </motion.div>
         </div>
@@ -664,7 +707,7 @@ export default function Home() {
           >
             <motion.div variants={fadeUp} custom={0}>
               <span className="font-mono text-xs tracking-[0.2em] uppercase text-amber-500/80 mb-3 block">
-                // contact
+                {"// contact"}
               </span>
               <h2 className="font-heading text-4xl md:text-5xl font-bold text-obsidian-50 mb-4">
                 Let&apos;s Connect
@@ -678,12 +721,12 @@ export default function Home() {
             {/* Terminal-style email */}
             <motion.div variants={fadeUp} custom={1}>
               <a
-                href="mailto:seidumahfuz@gmail.com"
+                href="mailto:mahfuzagbor@gmail.com"
                 className="group inline-flex items-center gap-3 px-8 py-4 bg-obsidian-800/80 border border-obsidian-600/30 rounded-xl hover:border-amber-500/30 hover:bg-obsidian-800 transition-all duration-300 mb-12 cursor-pointer"
               >
                 <span className="font-mono text-amber-500 text-sm">$</span>
                 <span className="font-mono text-obsidian-100 text-sm group-hover:text-amber-400 transition-colors">
-                  mail seidumahfuz@gmail.com
+                  mail mahfuzagbor@gmail.com
                 </span>
                 <span className="inline-block w-[2px] h-4 bg-amber-500 animate-cursor-blink" />
               </a>
