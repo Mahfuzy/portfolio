@@ -22,7 +22,7 @@ export default function Arc() {
         <SectionMark jp="物語" label="The arc · 2023 → now" />
         <h2 id="arc-title" className="mt-6 font-display text-[2.5rem] leading-[0.92] sm:text-6xl lg:text-7xl">
           From a pricing card <br className="hidden sm:block" />
-          to predicting churn.
+          to a platform in production.
         </h2>
 
         <ol ref={listRef} className="relative mt-16 lg:mt-24">
@@ -85,6 +85,16 @@ export default function Arc() {
                       <ul className="mt-6 flex flex-wrap gap-2">
                         {c.evidence.map((e) => (
                           <li key={e.label}>
+                            {!e.href ? (
+                              <span
+                                className={cn(
+                                  "inline-flex min-h-[40px] items-center border-2 border-dashed px-3 font-mono text-[11px]",
+                                  last ? "border-paper/40 text-paper/70" : "border-ink/40 text-muted"
+                                )}
+                              >
+                                {e.label}
+                              </span>
+                            ) : (
                             <a
                               href={e.href}
                               target="_blank"
@@ -99,6 +109,7 @@ export default function Arc() {
                               {e.label}
                               <ArrowUpRight aria-hidden className="h-3.5 w-3.5" />
                             </a>
+                            )}
                           </li>
                         ))}
                       </ul>

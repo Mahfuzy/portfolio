@@ -135,8 +135,8 @@ export default function Hero() {
               <em className="text-hanko">the API, the queue, the socket.</em>
             </motion.p>
             <motion.p {...fadeUp(1.0)} className="mt-5 max-w-[42ch] font-serif text-lg leading-relaxed text-ink-soft sm:text-xl">
-              Final-year Computer Science student in {person.place}. Fluent in Python. Still losing a fight with
-              Japanese.
+              Co-founder and backend lead at UniLoomy. Final-year Computer Science student in {person.place}. Fluent
+              in Python, still losing a fight with Japanese.
             </motion.p>
             <motion.div {...fadeUp(1.1)} className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
               <a href="#story" className="btn-ink group">

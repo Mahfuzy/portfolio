@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { ArrowDown, ArrowRight, Lock } from "lucide-react";
 import { chapterCard } from "@/lib/chapters";
 import { caseFiles, type CaseFile } from "@/lib/content";
 import { ease, Wipe } from "./motion";
@@ -19,8 +19,9 @@ export default function CaseFiles() {
           <span className="text-hanko-bright">opened up.</span>
         </h2>
         <p className="mt-6 max-w-[52ch] font-serif text-xl leading-relaxed text-paper/75">
-          Three projects, taken apart: what each one does, how the pieces talk to each other, and what&rsquo;s actually
-          in the repo.
+          Three projects, taken apart: a startup I co-founded, a lending platform for a client, and my final-year
+          project. Two of those repos are private, so they come with the story, the numbers and the architecture, but
+          no code.
         </p>
 
         <div className="mt-16 lg:mt-24">
@@ -45,7 +46,7 @@ function CaseFileView({ file, index }: { file: CaseFile; index: number }) {
           <span lang="ja" className="font-jp text-sm tracking-normal text-hanko-bright">
             記録
           </span>{" "}
-          · Case file {String(index + 1).padStart(2, "0")}
+          · Case file {String(index + 1).padStart(2, "0")} · {file.role}
         </p>
         <div className="flex flex-wrap gap-2">
           <TurnLink
@@ -56,9 +57,16 @@ function CaseFileView({ file, index }: { file: CaseFile; index: number }) {
             Read the chapter
             <ArrowRight aria-hidden className="h-4 w-4" />
           </TurnLink>
-          <ExternalLink href={file.github} invert>
-            Source
-          </ExternalLink>
+          {file.github ? (
+            <ExternalLink href={file.github} invert>
+              Source
+            </ExternalLink>
+          ) : (
+            <span className="inline-flex min-h-[44px] items-center gap-2 border-[3px] border-dashed border-paper/40 px-4 font-mono text-[11px] uppercase tracking-[0.2em] text-paper/70">
+              <Lock aria-hidden className="h-3.5 w-3.5" />
+              Private repo
+            </span>
+          )}
           {file.live && (
             <ExternalLink href={file.live} invert>
               {file.liveNote ? "Demo" : "Live"}

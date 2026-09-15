@@ -37,7 +37,7 @@ export default function Finale() {
         <div className="col-span-12 lg:col-span-7">
           <SectionMark jp="つづく" label="To be continued" />
           <h2 id="contact-title" className="mt-6 font-display text-[3rem] leading-[0.88] sm:text-7xl lg:text-[6.5rem]">
-            Chapter seven needs a <span className="text-hanko">team.</span>
+            Chapter ten needs a <span className="text-hanko">team.</span>
           </h2>
           <p className="mt-8 max-w-[44ch] font-serif text-xl leading-relaxed text-ink-soft sm:text-2xl">
             If you&rsquo;re hiring backend or AI engineers, or you&rsquo;ve got a problem that needs an API that
