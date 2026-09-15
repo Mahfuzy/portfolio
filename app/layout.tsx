@@ -3,6 +3,7 @@ import { Dela_Gothic_One, JetBrains_Mono, Newsreader } from "next/font/google";
 import Nav from "@/components/site/nav";
 import Footer from "@/components/site/footer";
 import { MotionProvider } from "@/components/site/motion";
+import { PageTurnProvider } from "@/components/site/page-turn";
 import "./globals.css";
 
 const display = Dela_Gothic_One({
@@ -54,9 +55,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </a>
         <div aria-hidden className="grain" />
         <MotionProvider>
-          <Nav />
-          <main id="main">{children}</main>
-          <Footer />
+          <PageTurnProvider>
+            <Nav />
+            <main id="main">{children}</main>
+            <Footer />
+          </PageTurnProvider>
         </MotionProvider>
       </body>
     </html>

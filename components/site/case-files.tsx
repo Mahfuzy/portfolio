@@ -2,8 +2,10 @@
 
 import { motion } from "motion/react";
 import { ArrowDown, ArrowRight } from "lucide-react";
+import { chapterCard } from "@/lib/chapters";
 import { caseFiles, type CaseFile } from "@/lib/content";
 import { ease, Wipe } from "./motion";
+import { TurnLink } from "./page-turn";
 import { ExternalLink, SectionMark } from "./ui";
 
 export default function CaseFiles() {
@@ -46,15 +48,19 @@ function CaseFileView({ file, index }: { file: CaseFile; index: number }) {
           · Case file {String(index + 1).padStart(2, "0")}
         </p>
         <div className="flex flex-wrap gap-2">
+          <TurnLink
+            href={`/work/${file.slug}`}
+            card={chapterCard(file.slug)}
+            className="inline-flex min-h-[44px] items-center gap-2 border-[3px] border-hanko-bright bg-hanko-bright px-4 font-mono text-[11px] uppercase tracking-[0.2em] text-ink transition-colors hover:border-paper hover:bg-paper"
+          >
+            Read the chapter
+            <ArrowRight aria-hidden className="h-4 w-4" />
+          </TurnLink>
           <ExternalLink href={file.github} invert>
             Source
           </ExternalLink>
           {file.live && (
-            <ExternalLink
-              href={file.live}
-              invert
-              className={file.liveNote ? undefined : "border-hanko-bright bg-hanko-bright text-ink hover:border-paper"}
-            >
+            <ExternalLink href={file.live} invert>
               {file.liveNote ? "Demo" : "Live"}
             </ExternalLink>
           )}
