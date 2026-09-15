@@ -36,8 +36,7 @@ export default function Prologue() {
           <Rise>
             <p className="dropcap">
               Hi, I&rsquo;m {person.short}, a final-year Computer Science student in {person.place}. I build backends:
-              auth that holds, APIs that stay quick under load, and sockets that stream an AI&rsquo;s answer as
-              it&rsquo;s written.
+              the auth, the APIs, and the websockets that keep a conversation with an AI open.
             </p>
           </Rise>
           <Rise>

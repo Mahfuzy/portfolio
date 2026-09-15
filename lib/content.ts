@@ -1,7 +1,8 @@
 /* ─────────────────────────────────────────────────────────────
-   Everything the site says lives here.
+   Everything the home page says lives here.
    Dates, commit counts and stacks are taken from the public repos
    on github.com/Mahfuzy — keep them honest when you update them.
+   Per-project chapter pages live in lib/projects.ts.
    ───────────────────────────────────────────────────────────── */
 
 export const person = {
@@ -58,7 +59,7 @@ export const chapters: Chapter[] = [
     when: "July 2024",
     title: "Crossing to the backend",
     body:
-      "DreamBoard was supposed to be a Pinterest clone. It turned into my education in auth, databases, media storage and websockets. It's my most-committed repo, and I came back in 2026 to give it a React frontend.",
+      "DreamBoard was supposed to be a Pinterest clone. It turned into my education in auth, databases, media storage and websockets. It's still my most-committed repo, and in 2026 it got a React frontend.",
     evidence: [{ label: "DreamBoard · 53 commits", href: "https://github.com/Mahfuzy/DreamBoard" }],
   },
   {
@@ -67,7 +68,7 @@ export const chapters: Chapter[] = [
     when: "Feb — Mar 2025",
     title: "The sprint",
     body:
-      "ShopNest, a marketplace API. A dashboard for a human-computer interaction course. Then StudyPal: eight Django apps, websockets and an AI study assistant, in thirty-three commits over six days.",
+      "ShopNest, a marketplace API. A mood-tracker dashboard for a human-computer interaction project. Then StudyPal: eight Django apps, websockets and an AI study assistant, in thirty-three commits over six days.",
     evidence: [
       { label: "ShopNest", href: "https://github.com/Mahfuzy/shopnest" },
       { label: "StudyPal · 33 commits / 6 days", href: "https://github.com/Mahfuzy/studypal" },
@@ -98,6 +99,7 @@ export const chapters: Chapter[] = [
 
 export type CaseFile = {
   id: string;
+  slug: string;
   title: string;
   kicker: string;
   logline: string;
@@ -114,25 +116,25 @@ export type CaseFile = {
 export const caseFiles: CaseFile[] = [
   {
     id: "studypal",
+    slug: "studypal",
     title: "StudyPal",
     kicker: "Case file 01",
     logline: "A study companion that remembers your streak, builds your timetable and answers back.",
     story: [
-      "Students don't need another note-taking app. They need something that notices when they've gone quiet for three days. StudyPal combines courses, quizzes, streaks, a timetable and notifications with an AI assistant that replies in real time.",
-      "The assistant runs on a websocket through Django Channels and Daphne rather than a request-response loop, so answers stream in as they're written. Anything slow goes to Celery workers backed by Redis, so the API never makes a student wait.",
+      "Students don't need another note-taking app. They need something that notices when they've gone quiet for three days. StudyPal's API covers courses, quizzes, streaks and XP, a timetable, notifications, and an AI study assistant called Tae.",
+      "Tae lives on a websocket served by Django Channels and Daphne, so a conversation stays open instead of polling, capped at 30 messages a minute. Background jobs are written for Celery, but for the deployed version I switched the Redis layer off to keep hosting simple.",
     ],
     stats: [
       { value: "8", label: "Django apps" },
       { value: "33", label: "commits" },
       { value: "6", label: "days" },
     ],
-    stack: ["Django 5", "DRF", "Channels", "Celery", "Redis", "PostgreSQL", "Gemini", "OpenAI", "JWT", "Cloudinary"],
+    stack: ["Django 5", "DRF", "Channels", "Daphne", "Celery", "PostgreSQL", "Gemini 2.0 Flash", "JWT", "Cloudinary"],
     flow: [
-      { label: "Client", note: "React front end" },
+      { label: "Client", note: "web front end" },
       { label: "DRF + JWT", note: "REST, social auth" },
-      { label: "Channels", note: "live assistant socket" },
-      { label: "Celery · Redis", note: "background jobs" },
-      { label: "Gemini / OpenAI", note: "the answers" },
+      { label: "Daphne · Channels", note: "Tae's websocket" },
+      { label: "Gemini 2.0 Flash", note: "the answers" },
     ],
     modules: ["accounts", "courses", "quizzes", "streaks", "timetable", "notifications", "dashboard", "study_assistant"],
     github: "https://github.com/Mahfuzy/studypal",
@@ -140,23 +142,24 @@ export const caseFiles: CaseFile[] = [
   },
   {
     id: "dreamboard",
+    slug: "dreamboard",
     title: "DreamBoard",
     kicker: "Case file 02",
     logline: "A Pinterest-style board app where pins, boards and chat all share one API.",
     story: [
-      "I built this one to learn, and it shows in the commit log: 53 commits spread over two years. Boards, pins, image uploads to Cloudinary, password resets, filtering, and real-time chat over websockets.",
-      "In January 2026 I came back and replaced the Django templates with a React frontend. Revisiting old code was humbling, and it showed me how much I'd learned since.",
+      "I built this one to learn, and it shows in the commit log: 53 commits across 18 months. Boards, pins, image uploads to Cloudinary, followers, filtering, and group and direct chat over websockets.",
+      "In January 2026 I came back with an AI coding agent and merged two pull requests from its codex/ branches: first a set of Django templates, then a React and Vite frontend that replaced them the same evening.",
     ],
     stats: [
       { value: "53", label: "commits" },
-      { value: "2", label: "years in the making" },
+      { value: "18", label: "months, first to last" },
       { value: "5", label: "apps" },
     ],
     stack: ["Django 5", "DRF", "Channels", "Redis", "PostgreSQL", "Cloudinary", "React", "Gunicorn"],
     flow: [
       { label: "React", note: "replaced templates, 2026" },
       { label: "DRF + JWT", note: "boards · pins · accounts" },
-      { label: "Channels", note: "chat" },
+      { label: "Channels", note: "group + direct chat" },
       { label: "PostgreSQL", note: "relations" },
       { label: "Cloudinary", note: "media" },
     ],
@@ -165,6 +168,7 @@ export const caseFiles: CaseFile[] = [
   },
   {
     id: "churn",
+    slug: "churnpredictor",
     title: "ChurnPredictor",
     kicker: "Case file 03",
     logline: "Predicts which bank customers are about to leave, then drafts a plan to keep them.",
@@ -189,10 +193,10 @@ export const caseFiles: CaseFile[] = [
 ];
 
 export const sideQuests = [
-  { title: "ShopNest", what: "Marketplace API: auth, listings, orders, Swagger docs", stack: "Django · DRF · JWT", year: "2025", href: "https://github.com/Mahfuzy/shopnest" },
-  { title: "HCI Dashboard", what: "Course project: protected routes and a mobile sidebar, tuned for contrast", stack: "Next.js · TypeScript", year: "2025", href: "https://github.com/Mahfuzy/hci" },
-  { title: "Collabo", what: "Team collaboration app for phones", stack: "Expo · React Native · NativeWind", year: "2025", href: "https://github.com/Mahfuzy/collabo" },
-  { title: "MovieHub", what: "Browse and search upcoming films from a live API", stack: "React", year: "2024", href: "https://movie-app-pi-gilt.vercel.app" },
+  { slug: "moviehub", title: "MovieHub", what: "Browse films and TV from TMDB, rebuilt twice since 2024", stack: "React · Tailwind", year: "2024–26" },
+  { slug: "shopnest", title: "ShopNest", what: "Marketplace API: products, carts, orders, payments, SMS via Hubtel", stack: "Django · DRF · JWT", year: "2025" },
+  { slug: "hci-dashboard", title: "HCI Dashboard", what: "Mood-tracker dashboard: journal, reflections, a sidebar that works on phones", stack: "Next.js · TypeScript", year: "2025" },
+  { slug: "collabo", title: "Collabo", what: "Find collaborators, pitch projects, ask to join", stack: "Expo · React Native · NativeWind", year: "2025" },
 ];
 
 export const toolkit = [
