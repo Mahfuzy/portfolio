@@ -1,38 +1,63 @@
-import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Dela_Gothic_One, JetBrains_Mono, Newsreader } from "next/font/google";
+import Nav from "@/components/site/nav";
+import Footer from "@/components/site/footer";
+import { MotionProvider } from "@/components/site/motion";
 import "./globals.css";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const display = Dela_Gothic_One({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const serif = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Mahfuz Seidu Agbor | Backend Developer",
-  description: "Portfolio of Mahfuz Seidu Agbor – Backend Developer specialising in Python, Django, and AI-powered systems.",
+  metadataBase: new URL("https://portfolio-blush-two-60.vercel.app"),
+  title: "Mahfuz Seidu Agbor: backend developer, Ghana",
+  description:
+    "From a pricing card in 2023 to real-time AI backends. The story of Mahfuz Seidu Agbor, a final-year CS student in Ghana, told through his commits.",
+  openGraph: {
+    title: "Mahfuz Seidu Agbor: the story so far",
+    description: "Backend developer from Ghana. Fluent in Python. Still losing a fight with Japanese.",
+    images: [{ url: "/mahfuz-portrait.jpg", width: 960, height: 1280 }],
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: "#efeae0",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistMono.variable} antialiased bg-[#0A0A0F] text-white overflow-x-hidden`}
-      >
-        {/* Skip to main content link for accessibility */}
+    <html lang="en" className={`${display.variable} ${serif.variable} ${mono.variable}`}>
+      <body className="antialiased">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-gold-400 focus:text-black focus:font-bold"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-[100] focus:bg-ink focus:px-4 focus:py-3 focus:font-mono focus:text-sm focus:text-paper"
         >
-          Skip to main content
+          Skip to content
         </a>
-        
-        <main id="main">
-          {children}
-        </main>
+        <div aria-hidden className="grain" />
+        <MotionProvider>
+          <Nav />
+          <main id="main">{children}</main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );
