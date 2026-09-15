@@ -131,7 +131,7 @@ export const chapters: Chapter[] = [
     when: "May — Sep 2026",
     title: "Final year",
     body:
-      "My final-year project marks a thesis against KNUST's own rubric, has to quote its evidence, and sends every mark to a verifier. Now I'm finishing the degree and looking for the team I'll write the next volume with.",
+      "My final-year project marks a thesis against KNUST's own rubric, has to quote its evidence, and sends every mark to a verifier. Now I'm finishing the degree, and I'm open to a job or a freelance project for the next volume.",
     evidence: [
       { label: "Thesis Assessor", href: "https://github.com/lifewkhissys-prog/FINAL-YEAR-PROJECT-123" },
       { label: "github.com/Mahfuzy", href: "https://github.com/Mahfuzy" },

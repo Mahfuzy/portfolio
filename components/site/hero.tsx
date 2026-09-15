@@ -37,9 +37,20 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="mt-5 flex items-center justify-between border-y-[3px] border-ink py-2 font-mono text-[10px] uppercase tracking-[0.22em] sm:text-[11px]"
         >
-          <span>Vol. 01 · The story so far</span>
-          <span className="hidden md:inline">Backend · AI · {person.place}</span>
-          <span>2023 → Now</span>
+          <span>
+            Vol. 01<span className="hidden sm:inline"> · The story so far</span>
+          </span>
+          <span className="hidden md:inline">2023 → Now</span>
+          <a
+            href="#contact"
+            className="inline-flex min-h-[32px] items-center gap-2 text-hanko transition-colors hover:text-ink"
+          >
+            <span aria-hidden className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-hanko opacity-60 motion-safe:animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-hanko" />
+            </span>
+            Open to jobs + freelance
+          </a>
         </motion.div>
 
         <div className="grid grid-cols-12 gap-x-6 pt-8 lg:pt-10">
@@ -135,8 +146,8 @@ export default function Hero() {
               <em className="text-hanko">the API, the queue, the socket.</em>
             </motion.p>
             <motion.p {...fadeUp(1.0)} className="mt-5 max-w-[42ch] font-serif text-lg leading-relaxed text-ink-soft sm:text-xl">
-              Co-founder and backend lead at UniLoomy. Final-year Computer Science student in {person.place}. Fluent
-              in Python, still losing a fight with Japanese.
+              I co-founded UniLoomy and built its backend. Final-year Computer Science student in {person.place}.
+              Fluent in Python, still losing a fight with Japanese.
             </motion.p>
             <motion.div {...fadeUp(1.1)} className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
               <a href="#story" className="btn-ink group">
