@@ -6,9 +6,9 @@ import { SectionMark } from "./ui";
 
 const facts = [
   { value: "2023", label: "first public commit" },
-  { value: "18", label: "public repositories" },
-  { value: "53", label: "commits on one project" },
-  { value: "8", label: "Django apps in StudyPal" },
+  { value: "415", label: "commits on UniLoomy" },
+  { value: "66", label: "migrations in one schema" },
+  { value: "14", label: "projects in this book" },
 ];
 
 export default function Prologue() {
@@ -35,15 +35,16 @@ export default function Prologue() {
         <div className="col-span-12 space-y-9 font-serif text-[1.35rem] leading-[1.5] sm:text-[1.65rem] lg:col-span-7 lg:col-start-6 lg:text-[1.9rem] lg:leading-[1.42]">
           <Rise>
             <p className="dropcap">
-              Hi, I&rsquo;m {person.short}, a final-year Computer Science student in {person.place}. I build backends:
-              the auth, the APIs, and the websockets that keep a conversation with an AI open.
+              Hi, I&rsquo;m {person.short}, a final-year Computer Science student in {person.place} and co-founder of
+              UniLoomy. I build backends: the auth, the payments, the queues, and the websockets that keep things live.
             </p>
           </Rise>
           <Rise>
             <p>
               I didn&rsquo;t start there. I started with <mark className="ink-mark">a pricing card in April 2023</mark>.
-              Almost everything I&rsquo;ve built since is public, so instead of telling you I&rsquo;m passionate,
-              I&rsquo;ll show you the commit history, one chapter at a time.
+              Some of what came after is public and some belongs to a startup or a client, but every chapter here is
+              told from the commit history. So instead of telling you I&rsquo;m passionate, I&rsquo;ll show you, one
+              chapter at a time.
             </p>
           </Rise>
           <Rise>

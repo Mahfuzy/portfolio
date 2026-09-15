@@ -1,11 +1,14 @@
 /* ─────────────────────────────────────────────────────────────
-   Vol. 02 — one chapter page per project.
-   Commit messages and code excerpts are copied verbatim from
-   github.com/Mahfuzy (long commit messages are cut with "…").
-   Screenshots were captured from the live sites on 14 Sep 2026.
+   Vols. 02 and 03: one chapter page per project.
+   Commit messages and code excerpts are copied verbatim from the
+   repos (long commit messages are cut with "…").
+   Private repos (UniLoomy, Pinnacle Loans, Visibl, Hill Down
+   Pharmacy, Twish) get the story, stats and screenshots only:
+   no `github` link and no `code`.
+   Screenshots were captured from the live sites in Sep 2026.
    ───────────────────────────────────────────────────────────── */
 
-import { chapterIndex } from "./chapters";
+import { chapterIndex, type VolumeNo } from "./chapters";
 
 export type Beat = {
   when: string;
@@ -26,30 +29,714 @@ export type CodeExcerpt = {
 
 export type Project = {
   slug: string;
+  vol: VolumeNo;
   num: string;
   kanji: string;
   title: string;
   years: string;
+  role?: string;
+  client?: string;
   logline: string;
   intro: string[];
   note?: string;
   stats: { value: string; label: string }[];
   stack: string[];
-  github: string;
+  /** Omitted for private repositories. */
+  github?: string;
   live?: string;
+  /** Button text for `live`; defaults to "Live", or "Demo" when there's a liveNote. */
+  liveLabel?: string;
   liveNote?: string;
-  shot?: { desktop: string; phone?: string; alt: string; caption: string };
+  shot?: { desktop: string; width?: number; height?: number; phone?: string; alt: string; caption: string };
   commitCount: number;
   beats: Beat[];
   flow?: { label: string; note: string }[];
   modules?: string[];
-  code: CodeExcerpt[];
+  code?: CodeExcerpt[];
   lookingBack?: string;
 };
 
-type ProjectBody = Omit<Project, "num" | "kanji" | "title">;
+type ProjectBody = Omit<Project, "vol" | "num" | "kanji" | "title">;
 
 const bodies: Record<string, ProjectBody> = {
+  /* ── Vol. 02 · The main story ─────────────────────────────── */
+
+  uniloomy: {
+    slug: "uniloomy",
+    years: "Nov 2025 → now",
+    role: "Co-founder · backend lead",
+    logline: "A campus platform where Ghanaian students connect, study and earn. I built the backend.",
+    intro: [
+      "UniLoomy is a campus super-app: a feed and short videos called UniClips, anonymous posts, campus news, direct messages, an AI tutor with flashcards and practice tests, a rewards system called Looms, and a student marketplace where payments sit in mobile-money escrow until the buyer has the item.",
+      "I co-founded it and lead the backend. 415 of the repo's 418 commits are mine: a FastAPI service split into fifteen modules, a Next.js admin dashboard, and the Docker, CI and monitoring setup behind production and staging.",
+    ],
+    note: "The repository is private, so this chapter has no code and no source link. The architecture and the commit messages come straight from it.",
+    stats: [
+      { value: "415", label: "of 418 commits" },
+      { value: "66", label: "database migrations" },
+      { value: "15", label: "API modules" },
+      { value: "28", label: "test files" },
+      { value: "109", label: "commits in July 2026" },
+    ],
+    stack: [
+      "FastAPI",
+      "Python 3.13",
+      "SQLAlchemy (async)",
+      "asyncpg",
+      "Alembic",
+      "PostgreSQL + pgvector",
+      "Valkey",
+      "Celery + Beat",
+      "Docker",
+      "Nginx",
+      "GitHub Actions",
+      "Sentry",
+      "Grafana · Loki · k6",
+      "Cloudflare R2",
+      "Moolre",
+      "Groq",
+      "Next.js (admin)",
+    ],
+    live: "https://uniloomy.com",
+    shot: {
+      desktop: "/work/uniloomy.webp",
+      phone: "/work/uniloomy-m.webp",
+      alt: "UniLoomy landing page reading The Complete Platform for Modern Students, with phones showing the Study Hub and the campus feed",
+      caption: "uniloomy.com · landing page by a teammate, the app behind it runs on this backend · Sep 2026",
+    },
+    commitCount: 418,
+    beats: [
+      {
+        when: "9 — 10 Nov 2025",
+        title: "Deploy day, sixteen months later",
+        body: "The repo's first two days are Docker and deployment settings. DreamBoard's deploy day ended in “taaaaahhhhhhh”. This one got to “finally”, then seven more commits and a sign-off.",
+        sfx: "please work",
+        commits: [
+          { msg: "added prod conf for docker" },
+          { msg: "updated docker settings for prod" },
+          { msg: "made changes for deployment" },
+          { msg: "please work" },
+          { msg: "new update for docker" },
+          { msg: "fixed" },
+          { msg: "finally" },
+          { msg: "another fix" },
+          { msg: "big update" },
+          { msg: "final changes for today" },
+        ],
+      },
+      {
+        when: "22 Nov 2025 — Jan 2026",
+        title: "The foundation",
+        body: "Registration with OTP, student verification, and the university → college → department → program tree everything else hangs off. On 24 November the same schema commit went in six times, spelled five different ways. In January every test in the repo was deleted to move faster.",
+        commits: [
+          { msg: "feat: implement initial authentication API with user registration, OTP verification, and secure token management." },
+          { msg: "feat: Add Pydantic schemas for University, College, Department, and Program entities.", times: 2 },
+          { msg: "feat: add Pydantic schemas for university, college, department, and program entities" },
+          { msg: "feat(schemas): add Pydantic schemas for university, college, department, and program entities" },
+          { msg: "refactor: remove all existing unit, integration, and e2e tests" },
+        ],
+      },
+      {
+        when: "Jan — Mar 2026",
+        title: "What students open it for",
+        body: "Ranked feeds for posts and UniClips that track what you've already seen, an AI tutor and flashcards, 1:1 messaging over websockets, and Looms: points for daily check-ins, streaks and referrals.",
+        commits: [
+          { msg: "added uniclips and posts feed algorithms" },
+          { msg: "feat: Add impression tracking for posts and uniclips, including new database tables and integration into feed APIs." },
+          { msg: "feat: add AI-powered flashcard generation with document parsing for various file types and associated database models." },
+          { msg: "feat: Implement 1-1 direct messaging with a new chat module, API, WebSocket integration, and database migrations." },
+          { msg: "feat: implement comprehensive Looms reward and referral system with new models, APIs, admin UI, and event integration." },
+        ],
+      },
+      {
+        when: "May — Jun 2026",
+        title: "Growing up",
+        body: "Background jobs moved from APScheduler to Celery Beat, deploys became rolling with health checks, logs went to Loki and load tests to k6. In June media moved to Cloudflare R2 and study materials got semantic search on pgvector.",
+        commits: [
+          { msg: "feat: integrate Celery for background task processing" },
+          { msg: "feat: add Loki and Promtail services for log aggregation and monitoring" },
+          { msg: "feat: migrate all background maintenance jobs from APScheduler to Celery Beat and add database composite indexes." },
+          { msg: "feat: implement rolling deployment with health checks…" },
+          { msg: "setup grafana k6 and setup load testing" },
+          { msg: "feat: implement semantic search for study materials, add vector support, and migrate media storage to Cloudflare R2" },
+        ],
+      },
+      {
+        when: "Jul 2026",
+        title: "The marketplace month",
+        body: "109 commits in one month: listings, bargaining with counter-offers, Moolre mobile-money escrow and semantic search over listings. On 11 July the escrow release code moved from the seller to the buyer, so money is only released when the buyer hands the code over in person. Later that month, student IDs started being checked by a vision model.",
+        sfx: "ゴゴゴ",
+        commits: [
+          { msg: "feat: implement marketplace module with CRUD, admin verification logic, and automated escrow cleanup tasks" },
+          { msg: "feat: implement vector-based semantic search for marketplace listings using pgvector and Celery tasks" },
+          { msg: "feat: implement bargain counter-offer workflow with status tracking, notification updates, and chat integration" },
+          { msg: "fix: swap release code visibility from seller to buyer in escrow sessions" },
+          { msg: "refactor: swap release code visibility so buyers hold the code and sellers must request it in person" },
+          { msg: "feat: implement automated student ID verification using AI vision and rule-based validation logic" },
+        ],
+      },
+      {
+        when: "6 — 13 Aug 2026",
+        title: "A pipeline between me and production",
+        body: "Deploys moved to a self-hosted runner that lints and runs pytest in its own Docker stack before staging and production are rebuilt. Getting there took 24 commits on 13 August, a lot of them about containers on one shared network answering to the same name.",
+        commits: [
+          { msg: "ci: switch production deployment workflow to self-hosted runner" },
+          { msg: "ci: integrate automated pytest suite into CI/CD pipeline and update database migration command to upgrade schema" },
+          { msg: "feat: add Nginx server configuration for staging-api.uniloomy.com" },
+          { msg: "fix: rename CI database service to ci_db to prevent hostname collision with production database on shared network" },
+          { msg: "fix: target uniloomy_app explicitly in nginx and rename staging app service to staging_app to eliminate Docker DNS load balancing collision" },
+          { msg: "Merge pull request #28 from Mahfuzy/staging" },
+        ],
+      },
+    ],
+    flow: [
+      { label: "App + admin", note: "mobile app · Next.js dashboard" },
+      { label: "Nginx", note: "api + staging-api" },
+      { label: "FastAPI", note: "15 async modules" },
+      { label: "PostgreSQL", note: "pgvector · 66 migrations" },
+      { label: "Celery + Valkey", note: "feeds · media · SMS · push" },
+      { label: "Moolre · R2 · Groq", note: "payments · media · AI" },
+    ],
+    modules: ["admin", "anonymous", "auth", "chat", "explore", "looms", "marketplace", "news", "notifications", "post", "story", "studyhub", "uniclip", "university", "user"],
+    lookingBack:
+      "In January I deleted every test in the repo to move faster. An integration suite came back in May, and it only started guarding deploys in August. Keeping a small suite running the whole time would have been cheaper than rebuilding one.",
+  },
+
+  "pinnacle-loans": {
+    slug: "pinnacle-loans",
+    years: "Mar → Jul 2026",
+    role: "Sole developer",
+    client: "A lender in Ghana",
+    logline: "A lending platform for a Ghanaian lender, from loan application to the last repayment.",
+    intro: [
+      "Borrowers apply through a step-by-step loan wizard with Ghana Card verification, sign their agreement on screen, and submit repayments from their phone. Admins approve loans and repayments, set rates and penalties in settings, and can trace every action in an audit log.",
+      "Weekly penalties on overdue loans run on a schedule, balances are calculated with Decimal, and borrowers hear about every change by SMS and push notification. I built the FastAPI backend and the React PWA, and every one of the 88 commits is mine.",
+    ],
+    note: "Client work in a private repository: no code or repo link, and the app itself sits behind a login.",
+    stats: [
+      { value: "88", label: "commits, all mine" },
+      { value: "83", label: "in the first 13 days" },
+      { value: "23", label: "commits on 16 March" },
+      { value: "11", label: "backend services" },
+    ],
+    stack: [
+      "FastAPI",
+      "SQLAlchemy (async)",
+      "asyncpg",
+      "Alembic",
+      "APScheduler",
+      "PostgreSQL",
+      "WeasyPrint",
+      "pywebpush",
+      "Cloudinary",
+      "Moolre SMS",
+      "React + Vite",
+      "TanStack Query",
+      "Zustand",
+      "zod",
+      "react-hook-form",
+      "PWA",
+    ],
+    commitCount: 88,
+    beats: [
+      {
+        when: "10 — 13 Mar 2026",
+        title: "Clickable before it was real",
+        body: "The first day built the borrower and admin screens on a mock data store, so every flow could be clicked through before an API existed. Two days later the real FastAPI backend took its place, then came the admin panel.",
+        commits: [
+          { msg: "first commit" },
+          { msg: "feat: Implement a mock data store using Zustand for frontend application state management and demo data." },
+          { msg: "feat: Implement core backend API services and frontend integration for user, loan, and admin functionalities." },
+          { msg: "feat: Implement comprehensive admin panel with user, loan, and audit management, including admin roles and phone number normalization." },
+        ],
+      },
+      {
+        when: "14 — 16 Mar 2026",
+        title: "The rules around money",
+        body: "Audit logs, weekly penalties on overdue loans, and an approval step for every repayment a borrower submits. There are 23 commits on 16 March alone, including one that changes when a loan counts as closed: total paid against total debt, not the original repayable amount.",
+        sfx: "23 commits",
+        commits: [
+          { msg: "feat: Implement a comprehensive audit logging system with new backend endpoints, models, services, and a dedicated admin UI." },
+          { msg: "feat: Introduce weekly penalty system for overdue loans, including database schema, backend automation, and frontend display updates." },
+          { msg: "feat: Implement a repayment approval workflow for borrower-submitted repayments, allowing admins to approve or reject them." },
+          { msg: "fix: Correct loan closure condition to compare `total_paid` against `total_debt` instead of `total_repayable`." },
+        ],
+      },
+      {
+        when: "16 — 18 Mar 2026",
+        title: "Signed, witnessed, exact",
+        body: "Loan agreements became PDFs with an on-screen signature and a named witness. Balance maths moved to Decimal, and pending repayments started counting towards the balance, so a borrower can't overpay while an earlier payment is still waiting for approval.",
+        commits: [
+          { msg: "feat: Add digital signature component and enhance loan agreement details on borrower pages." },
+          { msg: "feat: Add borrower signature and witness name to the loan schema…" },
+          { msg: "feat: Prevent overpayment by including pending repayments in balance calculations on both frontend and backend." },
+          { msg: "feat: Refactor loan financial calculations to use Decimal for precision and simplify loan closure logic." },
+        ],
+      },
+      {
+        when: "19 — 22 Mar 2026",
+        title: "Everyone hears about it",
+        body: "Push notifications, an installable PWA with notes for iPhone users, and alerts to admins when a loan goes overdue or a borrower updates their ID documents.",
+        commits: [
+          { msg: "feat: Add full-stack push notification support with new backend endpoints, services, database model, and frontend integration." },
+          { msg: "feat: Add PWA support including push notifications, manifest updates, and iOS-specific guidance." },
+          { msg: "feat: Add administrator notification when a loan becomes overdue." },
+          { msg: "feat: Send admin notification when a user updates their identity documents for KYC submission." },
+        ],
+      },
+      {
+        when: "Jun — Jul 2026",
+        title: "Round two",
+        body: "Months later, two more features: freezing interest on a loan while still sending payment reminders, and SMS broadcasts from the admin panel to every borrower, sent in the background.",
+        commits: [
+          { msg: "feat: implement interest rate freezing for loans with admin toggle and status tracking" },
+          { msg: "feat: include frozen loans in overdue processing to send payment reminders and prevent penalty accrual" },
+          { msg: "feat: add functionality for admins to send custom SMS messages to borrowers" },
+          { msg: "feat: implement background bulk SMS broadcasting for all registered borrowers with admin verification script" },
+        ],
+      },
+    ],
+    flow: [
+      { label: "Borrower + admin", note: "one React PWA" },
+      { label: "FastAPI", note: "11 services" },
+      { label: "PostgreSQL", note: "Decimal balances · audit log" },
+      { label: "APScheduler", note: "penalties · overdue checks" },
+      { label: "SMS · push · PDF", note: "Moolre · Web Push · WeasyPrint" },
+    ],
+    modules: [
+      "services/loan",
+      "services/auth",
+      "services/otp",
+      "services/audit",
+      "services/automation",
+      "services/scheduler",
+      "services/pdf",
+      "services/sms",
+      "services/push_notification_service",
+      "services/notification_service",
+      "services/storage",
+    ],
+    lookingBack:
+      "The backend folder has ten one-off scripts, like verify_penalties.py and simulate_overdue.py, that I ran by hand to check the money logic. They'd be worth more as tests, where they would run every time the loan maths changes.",
+  },
+
+  "thesis-assessor": {
+    slug: "thesis-assessor",
+    years: "May → Sep 2026",
+    role: "Final-year project · KNUST",
+    logline: "AI that marks a thesis against the university's rubric, and has to quote its evidence.",
+    intro: [
+      "Ask one language model to mark a thesis and you get confident, invented justifications. The Evidence-Based Thesis Assessor breaks the job into a ten-stage pipeline: parse the document, check structure and compliance, gather quoted evidence chapter by chapter, score each criterion, and hand every score to an independent verifier before a supervisor sees it.",
+      "It's my final-year project at KNUST, built in a group of two, and 101 of the 103 commits are mine. Scoring follows KNUST's published thesis assessment guide, plagiarism checks run against OpenAlex, a vision model reads the figures, and the report exports as a Word document for the committee.",
+    ],
+    stats: [
+      { value: "101", label: "of 103 commits" },
+      { value: "68", label: "commits in August" },
+      { value: "10", label: "pipeline stages" },
+      { value: "8K", label: "tokens per minute" },
+    ],
+    stack: ["FastAPI", "SQLAlchemy", "asyncpg", "React 19 + Vite", "Groq", "Llama 3.3 70B", "Llama 3.2 Vision", "OpenAlex", "Cloudinary", "Docker", "Render", "Vercel"],
+    github: "https://github.com/lifewkhissys-prog/FINAL-YEAR-PROJECT-123",
+    live: "https://final-year-project-123.vercel.app",
+    liveNote: "The live app opens on a lecturer login.",
+    shot: {
+      desktop: "/work/thesis-assessor.webp",
+      width: 1024,
+      height: 434,
+      alt: "Thesis Assessor reviewing a Conclusions chapter: the chapter list, the PDF manuscript, and an evaluation panel scoring it 6.0 out of 10 with a quoted evidence citation",
+      caption: "The assessor marking its own write-up, the thesis about this project · from the repo's report images",
+    },
+    commitCount: 103,
+    beats: [
+      {
+        when: "May — Jun 2026",
+        title: "A different project first",
+        body: "The repo didn't start as a thesis marker. Its first months are lecturer assessment pages, a problem bank, and a guided editor that locks each block until you finish the one before it.",
+        commits: [
+          { msg: "feat: add frontend submission feedback guide and implement lecturer assessment pages" },
+          { msg: "feat: implement progressive block locking and auto-scrolling logic for GuidedPage editor components" },
+          { msg: "feat: implement ProblemBankPage and formalize question creation flow documentation" },
+        ],
+      },
+      {
+        when: "13 — 15 Jul 2026",
+        title: "The pivot",
+        body: "In mid-July the backend arrived, the demo data was swapped for rubric criteria, and the old interface lost its hacker mode and audio. From here on it's a thesis assessor.",
+        commits: [
+          { msg: "feat: implement backend core modules and services with containerized deployment setup" },
+          { msg: "refactor: replace demo data seeding with rubric criteria initialization and add embedding service support" },
+          { msg: "refactor: remove hacker mode and audio features from Topbar and CommandPalette" },
+          { msg: "refactor: improve thesis assessment polling reliability and harden LLM response parsing and sanitization" },
+        ],
+      },
+      {
+        when: "Aug 2026",
+        title: "Show your evidence",
+        body: "68 commits in August, most of them about trust: prompts that ban generic filler, plagiarism matching against OpenAlex, figures read by a vision model, and a document viewer that finds each quoted piece of evidence in the thesis and highlights it, so a supervisor can check the AI's working.",
+        commits: [
+          { msg: "refactor: enforce strict specificity and ban generic filler phrases in agent evaluation prompts and justifications" },
+          { msg: "feat: integrate OpenAlex API for live academic plagiarism matching…" },
+          { msg: "feat: integrate Groq LLaMA 3.2 Vision API for automated figure analysis and add configuration support" },
+          { msg: "refactor: implement 4-tier fuzzy DOM locator to improve evidence quote matching in DocumentViewer" },
+        ],
+      },
+      {
+        when: "31 Aug — 2 Sep 2026",
+        title: "Working inside a rate limit",
+        body: "A thesis doesn't fit in 8,000 tokens a minute. So: token budgets, truncation that never cuts the system prompt, a JSON parser that survives messy model output, and a list of fallback models for when the daily quota runs out.",
+        sfx: "8,000 TPM",
+        commits: [
+          { msg: "refactor: implement Groq 8,000 TPM rate limiting with aggressive input truncation and token budgeting" },
+          { msg: "feat: add robust LLM JSON parser and improve error handling for model fallbacks and schema validation" },
+          { msg: "refactor: preserve system instructions during prompt truncation…" },
+          { msg: "feat: update fallback model list and expand error handling for daily quota limits" },
+        ],
+      },
+    ],
+    flow: [
+      { label: ".docx / PDF", note: "thesis_parser" },
+      { label: "Compliance", note: "structure · chapters mapped" },
+      { label: "Evidence agent", note: "quotes per criterion" },
+      { label: "Scoring", note: "KNUST rubric" },
+      { label: "Verifier", note: "audits every score" },
+      { label: "Report", note: "Word export" },
+    ],
+    modules: [
+      "services/agent_pipeline",
+      "services/thesis_parser",
+      "services/compliance_check",
+      "services/grading_scale",
+      "services/plagiarism_service",
+      "services/vision_service",
+      "services/embedding_service",
+      "services/docx_exporter",
+      "services/storage_service",
+    ],
+    code: [
+      {
+        path: "app/services/agent_pipeline.py",
+        start: 91,
+        caption: "Two decisions in one place: a criterion that can't be scored raises an error instead of getting a default mark, and model output is parsed defensively, reasoning tags and code fences included.",
+        code: `class ScoringError(RuntimeError):
+    """Raised when a sub-criterion could not be scored. Never substituted with a default mark."""
+
+
+def parse_json_from_llm(raw: str) -> Any:
+    """Extract and parse JSON from LLM output, handling markdown code fences, reasoning tags, and leading/trailing text."""
+    if not raw or not raw.strip():
+        return {}
+    text = raw.strip()
+    # Strip <think>...</think> reasoning blocks if present (common in Qwen models)
+    text = re.sub(r"<think>[\\s\\S]*?</think>", "", text).strip()
+
+    # Try direct parse first
+    try:
+        return json.loads(text)
+    except Exception:
+        pass
+
+    # Try markdown code fences \`\`\`json ... \`\`\` or \`\`\` ... \`\`\`
+    fence_match = re.search(r"\`\`\`(?:json)?\\s*([\\s\\S]*?)\\s*\`\`\`", text)
+    if fence_match:
+        try:
+            return json.loads(fence_match.group(1).strip())
+        except Exception:
+            pass`,
+      },
+    ],
+    lookingBack:
+      "The parser's last resort grabs everything between the first { and the last }. If a model writes two JSON objects, or a brace in its prose, that slice is wrong. Asking the API for structured JSON output would remove the guesswork instead of cleaning up after it.",
+  },
+
+  visibl: {
+    slug: "visibl",
+    years: "Mar 2026",
+    role: "Solo build",
+    logline: "Asks AI assistants about your business, and scores how often you come up.",
+    intro: [
+      "When someone asks ChatGPT or Perplexity to recommend a dentist in their city, most local businesses never appear. Visibl puts those questions to OpenAI and Perplexity for a business and its competitors, counts the mentions, and turns them into a score out of 100 with recommendations.",
+      "The score is simple on purpose: mentions divided by queries, times 100, with Perplexity weighted 1.2× because it searches the live web. The tests pin that down, including the case where only Perplexity mentions you.",
+    ],
+    note: "Private repository, so no code or repo link. The landing page is live.",
+    stats: [
+      { value: "5", label: "commits" },
+      { value: "1", label: "day" },
+      { value: "1.2×", label: "Perplexity weight" },
+      { value: "3", label: "test files" },
+    ],
+    stack: ["FastAPI", "SQLAlchemy (async)", "asyncpg", "Alembic", "slowapi", "python-jose", "pytest", "OpenAI", "Perplexity", "React 19 + Vite", "Tailwind CSS 4", "Recharts", "Zustand"],
+    live: "https://visibl-psi.vercel.app",
+    shot: {
+      desktop: "/work/visibl.webp",
+      phone: "/work/visibl-m.webp",
+      alt: "Visibl landing page headline, Your business might be invisible to AI, above two score dials going from 18 to 79 out of 100",
+      caption: "Captured from the live site · Sep 2026",
+    },
+    commitCount: 5,
+    beats: [
+      {
+        when: "5 Mar 2026",
+        title: "Arrived whole",
+        body: "The backend and frontend landed together in one initial commit, typo in the product name and stray bracket included. Four small landing-page fixes followed the same day.",
+        commits: [
+          { msg: "Initial commit: Vibisl backend + frontend)" },
+          { msg: "refactor: Implement dedicated CSS variables for the FinalCTA section…" },
+          { msg: "refactor: remove `glowGreen` prop from Hero section." },
+          { msg: "feat: update hero section sub-headline text." },
+          { msg: "chore: Update copyright year to 2026 in the footer." },
+        ],
+      },
+      {
+        when: "Inside that commit",
+        title: "A score you can test",
+        body: "The scorer is a plain function over audit results, so its tests don't need a network or a model: an empty audit, every query mentioning you, a partial hit, and a mention from Perplexity alone to check the weighting.",
+        logLabel: "tests in backend/tests/test_scorer.py",
+        commits: [
+          { msg: "test_score_calculation_empty" },
+          { msg: "test_score_calculation_all_mentions" },
+          { msg: "test_score_calculation_partial_mentions" },
+          { msg: "test_score_calculation_perplexity_mention_only" },
+        ],
+      },
+    ],
+    flow: [
+      { label: "Business", note: "+ competitors" },
+      { label: "Checkers", note: "OpenAI · Perplexity" },
+      { label: "Scorer", note: "mentions ÷ queries × 100" },
+      { label: "Recommendations", note: "what to fix" },
+      { label: "Dashboard", note: "React · Recharts" },
+    ],
+    modules: [
+      "routers/audits",
+      "routers/businesses",
+      "routers/competitors",
+      "routers/auth",
+      "services/checker",
+      "services/scorer",
+      "services/recommendations",
+      "services/audit_service",
+    ],
+  },
+
+  "hill-down-pharmacy": {
+    slug: "hill-down-pharmacy",
+    years: "30 — 31 Dec 2025",
+    role: "Website · solo build",
+    client: "A pharmacy in Yendi",
+    logline: "A website for a community pharmacy in Yendi, in the last two days of 2025.",
+    intro: [
+      "Hill Down Pharmacy has served Yendi since 2022 and needed somewhere online to say so: what they stock, the services they offer, their opening hours and how to reach them.",
+      "It's the smallest chapter in this volume: one page of nine sections, built with Next.js 16, shadcn/ui and Framer Motion.",
+    ],
+    stats: [
+      { value: "5", label: "commits" },
+      { value: "2", label: "days" },
+      { value: "9", label: "page sections" },
+    ],
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "shadcn/ui", "Radix UI", "Framer Motion"],
+    live: "https://hdp-eight.vercel.app",
+    shot: {
+      desktop: "/work/hdp.webp",
+      phone: "/work/hdp-m.webp",
+      alt: "Hill Down Pharmacy home page: Your Trusted Community Pharmacy, serving Yendi and the Northern Region, with business hours in a card",
+      caption: "Captured from the live site · Sep 2026",
+    },
+    commitCount: 5,
+    beats: [
+      {
+        when: "30 — 31 Dec 2025",
+        title: "Two days, one page",
+        body: "A fresh Next.js app on the 30th. On New Year's Eve, every section at once, then the contact section committed twice with slightly different descriptions, and the medicine categories last.",
+        commits: [
+          { msg: "Initial commit from Create Next App" },
+          { msg: "feat: Initialize Next.js project with core UI components, page sections, and updated dependencies." },
+          { msg: "feat: add Contact section component with contact details, links, and animated styling." },
+          { msg: "feat: add Contact section component displaying business contact details, address, and hours." },
+          { msg: "feat: add Products component to display medicine categories" },
+        ],
+      },
+    ],
+    modules: ["Navbar", "Hero", "About", "Services", "Products", "Testimonials", "CTA", "Contact", "Footer"],
+  },
+
+  safechain: {
+    slug: "safechain",
+    years: "May 2025",
+    role: "Team project · contracts and DApp",
+    logline: "Government project budgets on a blockchain, where no expense can overrun its milestone.",
+    intro: [
+      "SafeChain is a DApp that records government-funded projects, their milestones and every expense on-chain, so the numbers can't be quietly edited later. Government officials, auditors and admins each get a role, and only a project's own official can add to it.",
+      "It was a team build under the Blockbridge Network organisation. I wrote the two Solidity contracts and the Next.js frontend, and the README credits me for both.",
+    ],
+    note: "Deployed to Sonic Testnet. The contracts record budgets and spending; they don't hold any money.",
+    stats: [
+      { value: "20", label: "of 22 commits" },
+      { value: "2", label: "contracts" },
+      { value: "3", label: "on-chain roles" },
+      { value: "319", label: "lines of Solidity" },
+    ],
+    stack: ["Solidity", "OpenZeppelin AccessControl", "Remix", "Sonic Testnet", "Next.js", "ethers.js", "MetaMask"],
+    github: "https://github.com/Blockbridge-Network/Team-SafeChain",
+    live: "https://youtu.be/4f8jaaXIN60",
+    liveLabel: "Demo video",
+    shot: {
+      desktop: "/work/safechain.webp",
+      height: 799,
+      alt: "SafeChain dashboard in a dark theme, listing test projects with ETH budgets and amounts spent, next to role management and quick actions",
+      caption: "The DApp dashboard with test data · from the team repo's demo images",
+    },
+    commitCount: 22,
+    beats: [
+      {
+        when: "9 May 2025",
+        title: "One commit of code",
+        body: "My first commit to the team repo brought the contracts and the DApp in one go. Most of my other commits that day are the README, edited seven times under the same message.",
+        sfx: "README ×7",
+        commits: [
+          { msg: "initial commit" },
+          { msg: "Update README.md", times: 7 },
+          { msg: "Refine README.md with additional details and formatting improvements" },
+          { msg: "Rename videos/Screencast From 2025-05-08 22-25-27.mp4 to demo.mp4" },
+        ],
+      },
+      {
+        when: "15 May 2025",
+        title: "The demo video",
+        body: "A screen recording went into the repo, moved folders, was updated, and was finally removed. The README links to it on YouTube instead.",
+        commits: [
+          { msg: "Remove demo.mp4 file and kept it in the videos folder" },
+          { msg: "Update demo.mp4 file in the videos folder" },
+          { msg: "Remove demo.mp4 file from the videos folder" },
+          { msg: "Update README.md" },
+        ],
+      },
+    ],
+    flow: [
+      { label: "MetaMask", note: "signs in as a role" },
+      { label: "Next.js + ethers.js", note: "the DApp" },
+      { label: "ProjectTracker.sol", note: "projects · milestones · expenses" },
+      { label: "Verification kernel", note: "amount · proof · description" },
+      { label: "Sonic Testnet", note: "storage + events" },
+    ],
+    modules: ["contracts", "deployments", "docs", "safechain/src/app", "safechain/src/components", "safechain/src/context", "safechain/src/hooks"],
+    code: [
+      {
+        path: "contracts/ProjectTracker.sol",
+        start: 152,
+        caption: "Adding an expense: only the project's own official, within both the project and milestone budgets, and only after the verification kernel says yes.",
+        code: `    function addExpense(
+        uint256 _projectId,
+        string memory _description,
+        uint256 _amount,
+        string memory _proofIPFSHash,
+        uint256 _milestoneId
+    ) public onlyRole(GOVERNMENT_ROLE) {
+        require(_projectId < projectCount, "Project does not exist");
+        Project storage project = projects[_projectId];
+        require(project.government == msg.sender, "Only project owner can add expenses");
+        require(!project.isCompleted, "Project is completed");
+        require(project.spent + _amount <= project.budget, "Exceeds project budget");
+        require(_milestoneId < project.milestones.length, "Milestone does not exist");
+        require(!project.milestones[_milestoneId].isCompleted, "Milestone is completed");
+        require(
+            project.milestones[_milestoneId].spent + _amount <= project.milestones[_milestoneId].budget,
+            "Exceeds milestone budget"
+        );
+
+        require(
+            expenseKernel.verifyExpense(_proofIPFSHash, _amount, _description),
+            "Expense verification failed"
+        );
+
+        Expense storage expense = project.expenses[project.expenseCount];
+        expense.description = _description;
+        expense.amount = _amount;
+        expense.timestamp = block.timestamp;
+        expense.proofIPFSHash = _proofIPFSHash;
+        expense.milestoneId = _milestoneId;
+
+        project.spent += _amount;
+        project.milestones[_milestoneId].spent += _amount;
+        project.lastUpdated = block.timestamp;
+        emit ExpenseAdded(_projectId, project.expenseCount, _amount, _milestoneId);
+        createNotification(project.government, _projectId, "New expense added to milestone");
+        project.expenseCount++;
+    }`,
+      },
+    ],
+    lookingBack:
+      "The verification kernel only checks that the amount is under a limit and that the proof hash and description aren't empty. It never confirms the IPFS proof exists, so “verified” really means “filled in”. The contract defines an AUDITOR_ROLE, but no function uses it. Auditor sign-off is what would make verification mean something.",
+  },
+
+  twish: {
+    slug: "twish",
+    years: "Apr → Aug 2025",
+    role: "Solo backend",
+    logline: "Donations, a marketplace, projects and chat, in one Django backend.",
+    intro: [
+      "Twish is the backend for a community app: money, goods and service donations with goals, a marketplace of listings, offers and reviews with Paystack payments, KYC profiles, projects with tasks and funding, and chat rooms.",
+      "It was the biggest data model I'd written at the time, and the commit log shows me cutting scope: a blockchain app went in on day two and came out forty days later.",
+    ],
+    note: "Private repository, so no code or repo link.",
+    stats: [
+      { value: "36", label: "commits" },
+      { value: "7", label: "Django apps" },
+      { value: "40", label: "days of blockchain" },
+      { value: "10", label: "Dockerfile commits" },
+    ],
+    stack: ["Django 5.2", "DRF", "SimpleJWT", "Channels", "Daphne", "Celery", "Redis", "PostgreSQL", "Paystack", "drf-yasg", "uv", "Docker"],
+    commitCount: 36,
+    beats: [
+      {
+        when: "14 — 19 Apr 2025",
+        title: "Accounts first",
+        body: "A user system with phone verification and two-factor support, age checks at sign-up and Google sign-in, with the donations app and a blockchain app scaffolded on day two.",
+        commits: [
+          { msg: "Add initial Django project structure with user authentication system" },
+          { msg: "Add blockchain and donations modules with initial setup" },
+          { msg: "Enhance user authentication system with phone verification and 2FA support" },
+          { msg: "Enhance user model and authentication flow with age validation and logout functionality" },
+          { msg: "Update settings.py to include Google OAuth configuration and clean up commented code" },
+        ],
+      },
+      {
+        when: "25 Apr — 29 May 2025",
+        title: "Money, and less scope",
+        body: "The marketplace got Paystack transactions. A month later the blockchain app was removed, and donations and KYC were restructured around what was left.",
+        commits: [
+          { msg: "Add marketplace serializers, views, and URLs; implement Paystack transaction handling" },
+          { msg: "Refactor marketplace app to enhance functionality and organization" },
+          { msg: "Remove blockchain app and update requirements" },
+          { msg: "Refactor donations and KYC modules for improved structure and functionality" },
+        ],
+      },
+      {
+        when: "14 — 15 Aug 2025",
+        title: "The Dockerfile fight",
+        body: "Fifteen commits in two days, ten of them touching the Dockerfile. It ended with uv installing the dependencies and the settings reading from environment variables.",
+        sfx: "ドドド",
+        commits: [
+          { msg: "deployment fix" },
+          { msg: "Update Dockerfile to install uv and modify Python dependency installation method" },
+          { msg: "Remove .dockerignore file and streamline Dockerfile paths for improved clarity" },
+          { msg: "Refactor Dockerfile for improved caching and dependency installation" },
+          { msg: "Remove .dockerignore file and update Dockerfile for improved dependency installation" },
+          { msg: "Update docker-compose and settings for environment variable integration" },
+        ],
+      },
+    ],
+    flow: [
+      { label: "Client", note: "REST + JWT" },
+      { label: "DRF", note: "7 apps" },
+      { label: "Paystack", note: "marketplace payments" },
+      { label: "Channels", note: "chat rooms" },
+      { label: "Celery", note: "push notifications" },
+    ],
+    modules: ["users", "donations", "marketplace", "kyc", "projects", "chat", "notifications"],
+  },
+
+  /* ── Vol. 03 · Training arc ───────────────────────────────── */
+
   moviehub: {
     slug: "moviehub",
     years: "2024 → 2026",
@@ -663,6 +1350,7 @@ model.fit(X_train, y_train)`,
 
 export const projects: Project[] = chapterIndex.map((c) => ({
   ...bodies[c.slug],
+  vol: c.vol,
   num: c.num,
   kanji: c.kanji,
   title: c.title,
@@ -672,6 +1360,7 @@ export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);
 }
 
+/** Reading order runs through Vol. 02 into Vol. 03; the chapter page labels the volume break. */
 export function getNeighbors(slug: string) {
   const i = projects.findIndex((p) => p.slug === slug);
   return { prev: i > 0 ? projects[i - 1] : undefined, next: i < projects.length - 1 ? projects[i + 1] : undefined };

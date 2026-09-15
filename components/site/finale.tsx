@@ -14,6 +14,14 @@ const socials = [
   { label: "X / Twitter", href: person.links.x },
 ];
 
+// Each one is backed by a chapter: UniLoomy, Pinnacle Loans, the Thesis Assessor, the CI work.
+const services = [
+  "APIs and backends · FastAPI, Django",
+  "Mobile-money payments and escrow",
+  "AI features · LLM pipelines, semantic search",
+  "Deploys · Docker, CI, monitoring",
+];
+
 export default function Finale() {
   const [copied, setCopied] = useState(false);
 
@@ -37,12 +45,23 @@ export default function Finale() {
         <div className="col-span-12 lg:col-span-7">
           <SectionMark jp="つづく" label="To be continued" />
           <h2 id="contact-title" className="mt-6 font-display text-[3rem] leading-[0.88] sm:text-7xl lg:text-[6.5rem]">
-            Chapter seven needs a <span className="text-hanko">team.</span>
+            Chapter ten starts with <span className="text-hanko">you.</span>
           </h2>
           <p className="mt-8 max-w-[44ch] font-serif text-xl leading-relaxed text-ink-soft sm:text-2xl">
-            If you&rsquo;re hiring backend or AI engineers, or you&rsquo;ve got a problem that needs an API that
-            won&rsquo;t fall over, I&rsquo;d like to hear about it.
+            I&rsquo;m open to full-time roles and freelance work. If you&rsquo;re hiring a backend engineer, or you
+            need an API, a payment flow or an AI feature built properly, I&rsquo;d like to hear about it.
           </p>
+
+          <div className="mt-8">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">What I take on</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {services.map((s) => (
+                <li key={s} className="border-2 border-ink bg-paper px-3 py-1.5 font-mono text-[12px]">
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <a
             href={`mailto:${person.email}`}
